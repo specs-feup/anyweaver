@@ -1,2 +1,2 @@
-# uweaver
-Universal Weaver
+# anyweaver
+Weaver for ASTs given in structured files 
