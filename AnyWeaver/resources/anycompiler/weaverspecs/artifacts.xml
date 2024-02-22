@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!-- When changing the joinpoint model, do not forget to update the Clava 
+	document. https://docs.google.com/document/d/1uPrvuVBXHSbjDTfehpEeLDz9hgIr8EuJJJvBc5A70rs/edit#heading=h.hii8b3kunout -->
+<artifacts>
+
+
+
+	<!-- Global Joinpoint -->
+	<!-- These properties are shared by all joinpoints -->
+	<global>
+		<!--<attribute name="type" type="String"	tooltip="The type of the node" /> -->
+		<attribute name="ast" type="String"	tooltip="String representation of the ast." />
+	</global>
+
+
+
+
+	<!-- ANY -->
+	<artifact class="any">
+		<attribute name="get" type="Object" tooltip="Gets an attribute with the given name.">
+			<parameter name="name" type="String"/>
+		</attribute>
+	</artifact>
+
+
+</artifacts>
