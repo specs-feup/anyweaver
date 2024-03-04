@@ -11,22 +11,20 @@
  * specific language governing permissions and limitations under the License. under the License.
  */
 
-package pt.up.fe.specs.anycompiler.ast;
+package pt.up.fe.specs.anycompiler;
 
-import java.util.Collection;
+import org.junit.Test;
 
-import org.suikasoft.jOptions.Interfaces.DataStore;
-import org.suikasoft.jOptions.treenode.DataNode;
+import pt.up.fe.specs.anycompiler.parsers.JsonParser;
+import pt.up.fe.specs.util.SpecsIo;
 
-public abstract class AnyNode extends DataNode<AnyNode> {
+public class JsonParserTest {
 
-    public AnyNode(DataStore data, Collection<? extends AnyNode> children) {
-        super(data, children);
+    @Test
+    public void testSrlAst() {
+        var code = SpecsIo.getResource(() -> "pt/up/fe/specs/anycompiler/srl-ast.json");
+        var parser = new JsonParser("type", "children", true);
+        var ast = parser.parse(code);
+        System.out.println("AST:" + ast.toTree());
     }
-
-    @Override
-    protected Class<AnyNode> getBaseClass() {
-        return AnyNode.class;
-    }
-
 }

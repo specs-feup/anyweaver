@@ -1,0 +1,30 @@
+{
+  "node::1": {
+    "type": "STREAM::store",
+    "args": ["outputStream"],
+    "children": ["node::2"]
+  },
+  "node::2": {
+    "type": "OP::+",
+    "children": ["node::3", "node::4"]
+  },
+  "node::3": {
+    "type": "STREAM::load",
+    "args": ["S2"],
+    "children": []
+  },
+  "node::4": {
+    "type": "OP::*",
+    "children": ["node::5", "node::6"]
+  },
+  "node::5": {
+    "type": "STREAM::load",
+    "args": ["S1"],
+    "children": []
+  },
+  "node::6": {
+    "type": "INPUT::VALUE",
+    "args": ["mult_factor"],
+    "children": []
+  }
+}

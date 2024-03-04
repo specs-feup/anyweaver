@@ -14,22 +14,21 @@
 package pt.up.fe.specs.anycompiler.ast;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.suikasoft.jOptions.Datakey.DataKey;
-import org.suikasoft.jOptions.Datakey.KeyFactory;
-import org.suikasoft.jOptions.Interfaces.DataStore;
+import pt.up.fe.specs.util.treenode.ATreeNode;
 
-public class GenericAnyNode extends AnyNode {
+public abstract class AnyNode extends ATreeNode<AnyNode> {
 
-    public static final DataKey<String> KIND = KeyFactory.string("kind");
-
-    public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            () -> new HashMap<String, Object>());
-
-    public GenericAnyNode(DataStore data, Collection<? extends AnyNode> children) {
-        super(data, children);
+    public AnyNode(Collection<? extends AnyNode> children) {
+        super(children);
     }
+
+    public abstract String getKind();
+
+    public abstract Object getValue(String attribute);
+
+    public abstract Object putValue(String attribute, Object value);
+
+    public abstract Collection<String> getAttributes();
 
 }
