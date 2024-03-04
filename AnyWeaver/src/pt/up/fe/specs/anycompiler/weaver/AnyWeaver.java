@@ -101,7 +101,7 @@ public class AnyWeaver extends AAnyWeaver {
 
         root = new GenericAnyNode("app", fileNodes);
 
-        langSpec = buildLangSpec(root);
+        langSpec = buildLangSpec();
 
         System.out.println("FINISH BEGIN");
         // // sources can be a smali file, a folder or APK. Only supporting smali files for now
@@ -113,6 +113,12 @@ public class AnyWeaver extends AAnyWeaver {
         // // Initialize weaver with the input file/folder
         // // throw new UnsupportedOperationException("Method begin for SmaliWeaver is not yet implemented");
         return true;
+    }
+
+    private LanguageSpecificationV2 buildLangSpec() {
+
+        // TODO Auto-generated method stub
+        return null;
     }
 
     private List<File> getSourceFiles(List<File> sources) {

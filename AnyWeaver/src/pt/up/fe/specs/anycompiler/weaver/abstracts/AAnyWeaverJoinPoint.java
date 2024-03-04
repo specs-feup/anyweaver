@@ -1,9 +1,12 @@
 package pt.up.fe.specs.anycompiler.weaver.abstracts;
 
 import java.util.List;
+import java.util.stream.Stream;
 
+import org.lara.interpreter.weaver.interf.JoinPoint;
 import org.lara.interpreter.weaver.interf.SelectOp;
 
+import pt.up.fe.specs.anycompiler.weaver.AnyJoinpoints;
 import pt.up.fe.specs.anycompiler.weaver.abstracts.joinpoints.AJoinPoint;
 
 /**
@@ -35,13 +38,39 @@ public abstract class AAnyWeaverJoinPoint extends AJoinPoint {
 
     @Override
     public String getAstImpl() {
-        // TODO Auto-generated method stub
-        return null;
+        return getNode().toTree();
     }
 
     @Override
     public Object getImpl(String name) {
-        // TODO Auto-generated method stub
-        return null;
+        return getNode().getValue(name);
     }
+
+    @Override
+    public String getJoinPointType() {
+        return getNode().getKind();
+    }
+
+    /*
+    @Override
+    public List<JoinPoint> getJpChildren() {
+        return getNode().getChildren().stream().map(n -> (JoinPoint) AnyJoinpoints.create(n)).toList();
+    }
+    */
+
+    @Override
+    public Stream<JoinPoint> getJpChildrenStream() {
+        return getNode().getChildrenStream().map(c -> (JoinPoint) AnyJoinpoints.create(c));
+    }
+
+    /**
+     * Implement this method and getJpChildrenStream() in order to obtain tree-like functionality (descendants, etc).
+     * 
+     * @return
+     */
+    @Override
+    public JoinPoint getJpParent() {
+        return AnyJoinpoints.create(getNode().getParent());
+    }
+
 }
