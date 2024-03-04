@@ -1,11 +1,9 @@
 package pt.up.fe.specs.anycompiler.weaver.abstracts.joinpoints;
 
-import org.lara.interpreter.weaver.interf.events.Stage;
-import java.util.Optional;
-import org.lara.interpreter.exception.AttributeException;
 import pt.up.fe.specs.anycompiler.weaver.abstracts.AAnyWeaverJoinPoint;
 import java.util.List;
 import org.lara.interpreter.weaver.interf.JoinPoint;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.Arrays;
 
@@ -17,33 +15,6 @@ import java.util.Arrays;
  * @author Lara Weaver Generator
  */
 public abstract class AAny extends AAnyWeaverJoinPoint {
-
-    /**
-     * 
-     * @param name
-     * @return 
-     */
-    public abstract Object getImpl(String name);
-
-    /**
-     * 
-     * @param name
-     * @return 
-     */
-    public final Object get(String name) {
-        try {
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "get", Optional.empty(), name);
-        	}
-        	Object result = this.getImpl(name);
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "get", Optional.ofNullable(result), name);
-        	}
-        	return result!=null?result:getUndefinedValue();
-        } catch(Exception e) {
-        	throw new AttributeException(get_class(), "get", e);
-        }
-    }
 
     /**
      * 
@@ -75,7 +46,6 @@ public abstract class AAny extends AAnyWeaverJoinPoint {
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
         super.fillWithAttributes(attributes);
-        attributes.add("get");
     }
 
     /**
@@ -106,8 +76,8 @@ public abstract class AAny extends AAnyWeaverJoinPoint {
      * 
      */
     protected enum AnyAttributes {
-        GET("get"),
-        AST("ast");
+        AST("ast"),
+        GET("get");
         private String name;
 
         /**

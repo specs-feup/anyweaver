@@ -13,33 +13,33 @@
 
 package pt.up.fe.specs.anycompiler.weaver;
 
-import pt.up.fe.specs.smali.ast.Placeholder;
-import pt.up.fe.specs.smali.ast.SmaliNode;
-import pt.up.fe.specs.smali.weaver.abstracts.ASmaliWeaverJoinPoint;
-import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.AJoinPoint;
-import pt.up.fe.specs.smali.weaver.joinpoints.PlaceholderJp;
+import pt.up.fe.specs.anycompiler.ast.AnyNode;
+import pt.up.fe.specs.anycompiler.ast.GenericAnyNode;
+import pt.up.fe.specs.anycompiler.weaver.abstracts.AAnyWeaverJoinPoint;
+import pt.up.fe.specs.anycompiler.weaver.abstracts.joinpoints.AJoinPoint;
+import pt.up.fe.specs.anycompiler.weaver.joinpoints.AnyJp;
 import pt.up.fe.specs.util.SpecsLogs;
 import pt.up.fe.specs.util.classmap.FunctionClassMap;
 
 public class AnyJoinpoints {
 
-    private static final FunctionClassMap<SmaliNode, ASmaliWeaverJoinPoint> JOINPOINT_FACTORY;
+    private static final FunctionClassMap<AnyNode, AAnyWeaverJoinPoint> JOINPOINT_FACTORY;
     static {
         JOINPOINT_FACTORY = new FunctionClassMap<>();
-        JOINPOINT_FACTORY.put(Placeholder.class, PlaceholderJp::new);
+        JOINPOINT_FACTORY.put(GenericAnyNode.class, AnyJp::new);
         // JOINPOINT_FACTORY.put(Placeholder.class, node -> new PlaceholderJp(node));
     }
 
-    public static ASmaliWeaverJoinPoint createFromLara(Object node) {
-        if (!(node instanceof SmaliNode)) {
+    public static AAnyWeaverJoinPoint createFromLara(Object node) {
+        if (!(node instanceof AnyNode)) {
             throw new RuntimeException(
-                    "Expected input to be a ClavaNode, is " + node.getClass().getSimpleName() + ": " + node);
+                    "Expected input to be a AnyNode, is " + node.getClass().getSimpleName() + ": " + node);
         }
 
-        return create((SmaliNode) node);
+        return create((AnyNode) node);
     }
 
-    public static ASmaliWeaverJoinPoint create(SmaliNode node) {
+    public static AAnyWeaverJoinPoint create(AnyNode node) {
         if (node == null) {
             SpecsLogs.debug("CxxJoinpoints: tried to create join point from null node, returning undefined");
             return null;
@@ -48,7 +48,7 @@ public class AnyJoinpoints {
         return JOINPOINT_FACTORY.apply(node);
     }
 
-    public static <T extends AJoinPoint> T create(SmaliNode node, Class<T> targetClass) {
+    public static <T extends AJoinPoint> T create(AnyNode node, Class<T> targetClass) {
         if (targetClass == null) {
             throw new RuntimeException("Check if you meant to call 'create' with a single argument");
         }

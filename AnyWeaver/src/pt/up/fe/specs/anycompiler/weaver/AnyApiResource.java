@@ -24,7 +24,7 @@ public enum AnyApiResource implements LaraResourceProvider {
 
     private final String resource;
 
-    private static final String WEAVER_PACKAGE = "smali/";
+    private static final String WEAVER_PACKAGE = "anycompiler/";
     private static final String BASE_PACKAGE = "weaver/";
 
     /**

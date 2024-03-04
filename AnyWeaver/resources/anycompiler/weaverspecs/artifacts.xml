@@ -10,17 +10,16 @@
 	<global>
 		<!--<attribute name="type" type="String"	tooltip="The type of the node" /> -->
 		<attribute name="ast" type="String"	tooltip="String representation of the ast." />
+
+
+		<attribute name="get" type="Object" tooltip="Gets an attribute with the given name.">
+			<parameter name="name" type="String"/>
+		</attribute>
 	</global>
 
 
 
 
-	<!-- ANY -->
-	<artifact class="any">
-		<attribute name="get" type="Object" tooltip="Gets an attribute with the given name.">
-			<parameter name="name" type="String"/>
-		</attribute>
-	</artifact>
 
 
 </artifacts>

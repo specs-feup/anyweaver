@@ -1,17 +1,25 @@
 package pt.up.fe.specs.anycompiler.weaver;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.lara.interpreter.weaver.ast.AstMethods;
 import org.lara.interpreter.weaver.interf.AGear;
 import org.lara.interpreter.weaver.interf.JoinPoint;
 import org.lara.interpreter.weaver.options.WeaverOption;
 import org.lara.language.specification.LanguageSpecification;
+import org.lara.language.specification.dsl.LanguageSpecificationV2;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
+import pt.up.fe.specs.anycompiler.ast.AnyNode;
+import pt.up.fe.specs.anycompiler.ast.GenericAnyNode;
+import pt.up.fe.specs.anycompiler.parsers.JsonParser;
 import pt.up.fe.specs.anycompiler.weaver.abstracts.weaver.AAnyWeaver;
+import pt.up.fe.specs.util.SpecsIo;
+import pt.up.fe.specs.util.SpecsLogs;
 import pt.up.fe.specs.util.providers.ResourceProvider;
 
 /**
@@ -25,6 +33,9 @@ import pt.up.fe.specs.util.providers.ResourceProvider;
  * @author Lara Weaver Generator
  */
 public class AnyWeaver extends AAnyWeaver {
+
+    private AnyNode root;
+    private LanguageSpecificationV2 langSpec;
 
     /**
      * Thread-scope WeaverEngine
@@ -48,7 +59,8 @@ public class AnyWeaver extends AAnyWeaver {
 
     public AnyWeaver() {
         // this.parser = new SmaliParser();
-        // root = null;
+        root = null;
+        langSpec = null;
     }
 
     /**
@@ -76,6 +88,22 @@ public class AnyWeaver extends AAnyWeaver {
     @Override
     public boolean begin(List<File> sources, File outputDir, DataStore args) {
 
+        // For now, using json parser
+
+        var sourceFiles = getSourceFiles(sources);
+
+        // Parse each source file
+        var parser = new JsonParser("type", "children", true);
+
+        var fileNodes = sourceFiles.stream()
+                .map(f -> parser.parse(SpecsIo.read(f)))
+                .toList();
+
+        root = new GenericAnyNode("app", fileNodes);
+
+        langSpec = buildLangSpec(root);
+
+        System.out.println("FINISH BEGIN");
         // // sources can be a smali file, a folder or APK. Only supporting smali files for now
         //
         // root = parser.parse(sources.get(0)).orElseThrow();
@@ -85,6 +113,22 @@ public class AnyWeaver extends AAnyWeaver {
         // // Initialize weaver with the input file/folder
         // // throw new UnsupportedOperationException("Method begin for SmaliWeaver is not yet implemented");
         return true;
+    }
+
+    private List<File> getSourceFiles(List<File> sources) {
+
+        var sourceFiles = new ArrayList<File>();
+
+        for (var source : sources) {
+            if (!source.exists()) {
+                SpecsLogs.info("Could not find source '" + source + "'");
+                continue;
+            }
+
+            sourceFiles.addAll(SpecsIo.getFilesRecursive(source, Set.of("json")));
+        }
+
+        return sourceFiles;
     }
 
     @Override
@@ -130,7 +174,7 @@ public class AnyWeaver extends AAnyWeaver {
     /**
      * Returns Weaving Engine as a SmaliWeaver
      */
-    public static AnyWeaver getSmaliWeaver() {
+    public static AnyWeaver getAnyWeaver() {
         return (AnyWeaver) getThreadLocalWeaver();
     }
 
@@ -141,7 +185,21 @@ public class AnyWeaver extends AAnyWeaver {
 
     @Override
     public LanguageSpecification getLanguageSpecification() {
+        System.out.println("GET LANGUAGE SPECIFICATION V1");
         return buildLanguageSpecificationOld();
+    }
+
+    @Override
+    public LanguageSpecificationV2 getLanguageSpecificationV2() {
+
+        if (langSpec == null) {
+            System.out.println("GET LANGUAGE SPECIFICATION V2 xml");
+            return super.getLanguageSpecificationV2();
+        }
+
+        System.out.println("GET LANGUAGE SPECIFICATION V2 dynamic");
+        return langSpec;
+
     }
 
     @Override
@@ -156,7 +214,6 @@ public class AnyWeaver extends AAnyWeaver {
 
     @Override
     public JoinPoint getRootJp() {
-        return null;
-        // return AnyJoinpoints.create(root);
+        return AnyJoinpoints.create(root);
     }
 }

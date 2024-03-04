@@ -42,6 +42,19 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Gets an attribute with the given name.",
+						"children": [
+									{
+										"type": "Object",
+										"name": "get"
+									},
+									{
+										"type": "String",
+										"name": "name"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "true if the current join point is an instance of the given type",
 						"children": [
 									{
@@ -219,19 +232,6 @@
 			"children": [
 					{
 						"type": "attribute",
-						"tooltip": "Gets an attribute with the given name.",
-						"children": [
-									{
-										"type": "Object",
-										"name": "get"
-									},
-									{
-										"type": "String",
-										"name": "name"
-									}]
-					},
-					{
-						"type": "attribute",
 						"children": [
 									{
 										"type": "String[]",
@@ -261,6 +261,19 @@
 									{
 										"type": "String",
 										"name": "ast"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Gets an attribute with the given name.",
+						"children": [
+									{
+										"type": "Object",
+										"name": "get"
+									},
+									{
+										"type": "String",
+										"name": "name"
 									}]
 					},
 					{
