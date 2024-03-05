@@ -42,7 +42,7 @@ public abstract class AAnyWeaverJoinPoint extends AJoinPoint {
     }
 
     @Override
-    public Object getImpl(String name) {
+    public Object getValueImpl(String name) {
         return getNode().getValue(name);
     }
 

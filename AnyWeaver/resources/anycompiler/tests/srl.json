@@ -1,0 +1,126 @@
+{
+    "inputs": [
+        {
+            "name": "x_address",
+            "type": "ptr",
+            "value": "%1"
+        },
+        {
+            "name": "y_address",
+            "type": "ptr",
+            "value": "%2"
+        },
+        {
+            "name": "output_address",
+            "type": "ptr",
+            "value": "%6"
+        },
+        {
+            "name": "step",
+            "type": "int32",
+            "value": "%3"
+        },
+        {
+            "name": "len",
+            "type": "int32",
+            "value": "%4"
+        },
+        {
+            "name": "mult_factor",
+            "type": "int32",
+            "value": "%5"
+        }
+    ],
+    "streams": [
+        {
+            "name": "xStream",
+            "type": "input",
+            "datatype": "int32",
+            "base": "x_address",
+            "dims": [
+                {
+                    "init": "x_address",
+                    "step": "step",
+                    "length": "len"
+                }
+            ]
+        },
+        {
+            "name": "yStream",
+            "type": "input",
+            "datatype": "int32",
+            "base": "y_address",
+            "dims": [
+                {
+                    "init": "y_address",
+                    "step": "step",
+                    "length": "len"
+                }
+            ]
+        },
+        {
+            "name": "outputStream",
+            "type": "output",
+            "datatype": "int32",
+            "base": "output_address",
+            "dims": [
+                {
+                    "init": "output_address",
+                    "step": "step",
+                    "length": "len"
+                }
+            ]
+        }
+    ],
+    "cfgs": {
+        "Condition": "xStream.dim[0].nc",
+        "dfgs": [
+            {
+                "node::1": {
+                    "type": "STREAM::store",
+                    "args": [
+                        "outputStream"
+                    ],
+                    "children": [
+                        "node::2"
+                    ]
+                },
+                "node::2": {
+                    "type": "OP::+",
+                    "children": [
+                        "node::3",
+                        "node::4"
+                    ]
+                },
+                "node::3": {
+                    "type": "STREAM::load",
+                    "args": [
+                        "S2"
+                    ],
+                    "children": []
+                },
+                "node::4": {
+                    "type": "OP::*",
+                    "children": [
+                        "node::5",
+                        "node::6"
+                    ]
+                },
+                "node::5": {
+                    "type": "STREAM::load",
+                    "args": [
+                        "S1"
+                    ],
+                    "children": []
+                },
+                "node::6": {
+                    "type": "INPUT::VALUE",
+                    "args": [
+                        "mult_factor"
+                    ],
+                    "children": []
+                }
+            }
+        ]
+    }
+}

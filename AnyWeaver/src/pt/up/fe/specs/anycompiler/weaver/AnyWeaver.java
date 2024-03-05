@@ -35,7 +35,6 @@ import pt.up.fe.specs.util.providers.ResourceProvider;
 public class AnyWeaver extends AAnyWeaver {
 
     private AnyNode root;
-    private LanguageSpecificationV2 langSpec;
 
     /**
      * Thread-scope WeaverEngine
@@ -60,7 +59,6 @@ public class AnyWeaver extends AAnyWeaver {
     public AnyWeaver() {
         // this.parser = new SmaliParser();
         root = null;
-        langSpec = null;
     }
 
     /**
@@ -101,9 +99,6 @@ public class AnyWeaver extends AAnyWeaver {
 
         root = new GenericAnyNode("app", fileNodes);
 
-        langSpec = buildLangSpec();
-
-        System.out.println("FINISH BEGIN");
         // // sources can be a smali file, a folder or APK. Only supporting smali files for now
         //
         // root = parser.parse(sources.get(0)).orElseThrow();
@@ -191,21 +186,7 @@ public class AnyWeaver extends AAnyWeaver {
 
     @Override
     public LanguageSpecification getLanguageSpecification() {
-        System.out.println("GET LANGUAGE SPECIFICATION V1");
         return buildLanguageSpecificationOld();
-    }
-
-    @Override
-    public LanguageSpecificationV2 getLanguageSpecificationV2() {
-
-        if (langSpec == null) {
-            System.out.println("GET LANGUAGE SPECIFICATION V2 xml");
-            return super.getLanguageSpecificationV2();
-        }
-
-        System.out.println("GET LANGUAGE SPECIFICATION V2 dynamic");
-        return langSpec;
-
     }
 
     @Override

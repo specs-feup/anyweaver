@@ -46,7 +46,7 @@
 						"children": [
 									{
 										"type": "Object",
-										"name": "get"
+										"name": "getValue"
 									},
 									{
 										"type": "String",
@@ -269,7 +269,7 @@
 						"children": [
 									{
 										"type": "Object",
-										"name": "get"
+										"name": "getValue"
 									},
 									{
 										"type": "String",

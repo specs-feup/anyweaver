@@ -12,7 +12,7 @@
 		<attribute name="ast" type="String"	tooltip="String representation of the ast." />
 
 
-		<attribute name="get" type="Object" tooltip="Gets an attribute with the given name.">
+		<attribute name="getValue" type="Object" tooltip="Gets an attribute with the given name.">
 			<parameter name="name" type="String"/>
 		</attribute>
 	</global>

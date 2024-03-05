@@ -322,7 +322,7 @@ public abstract class AJoinPoint extends JoinPoint {
         
         //Attributes available for all join points
         attributes.add("ast");
-        attributes.add("get(String name)");
+        attributes.add("getValue(String name)");
     }
 
     /**
@@ -353,25 +353,25 @@ public abstract class AJoinPoint extends JoinPoint {
      * @param name
      * @return 
      */
-    public abstract Object getImpl(String name);
+    public abstract Object getValueImpl(String name);
 
     /**
      * 
      * @param name
      * @return 
      */
-    public final Object get(String name) {
+    public final Object getValue(String name) {
         try {
         	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "get", Optional.empty(), name);
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "getValue", Optional.empty(), name);
         	}
-        	Object result = this.getImpl(name);
+        	Object result = this.getValueImpl(name);
         	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "get", Optional.ofNullable(result), name);
+        		eventTrigger().triggerAttribute(Stage.END, this, "getValue", Optional.ofNullable(result), name);
         	}
         	return result!=null?result:getUndefinedValue();
         } catch(Exception e) {
-        	throw new AttributeException(get_class(), "get", e);
+        	throw new AttributeException(get_class(), "getValue", e);
         }
     }
 

@@ -50,6 +50,8 @@ public class GenericAnyNode extends AnyNode {
 
     @Override
     public Object getValue(String attribute) {
+        // System.out.println("GENERIC: " + attributes);
+        // System.out.println("GET: " + attributes.get(attribute));
         return attributes.get(attribute);
     }
 
