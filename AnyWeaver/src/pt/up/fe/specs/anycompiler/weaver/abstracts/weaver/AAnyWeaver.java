@@ -21,7 +21,7 @@ public abstract class AAnyWeaver extends LaraWeaverEngine {
      */
     @Override
     public final List<String> getActions() {
-        String[] weaverActions= {"replaceWith", "replaceWith", "replaceWith", "replaceWithStrings", "insertBefore", "insertBefore", "insertAfter", "insertAfter", "detach"};
+        String[] weaverActions= {"replaceWith", "replaceWith", "replaceWith", "replaceWithStrings", "insertBefore", "insertBefore", "insertAfter", "insertAfter", "detach", "addAst"};
         return Arrays.asList(weaverActions);
     }
 
@@ -32,7 +32,7 @@ public abstract class AAnyWeaver extends LaraWeaverEngine {
      */
     @Override
     public final String getRoot() {
-        return "any";
+        return "app";
     }
 
     /**

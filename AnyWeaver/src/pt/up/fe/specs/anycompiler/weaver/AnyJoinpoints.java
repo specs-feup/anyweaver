@@ -18,6 +18,7 @@ import pt.up.fe.specs.anycompiler.ast.GenericAnyNode;
 import pt.up.fe.specs.anycompiler.weaver.abstracts.AAnyWeaverJoinPoint;
 import pt.up.fe.specs.anycompiler.weaver.abstracts.joinpoints.AJoinPoint;
 import pt.up.fe.specs.anycompiler.weaver.joinpoints.AnyJp;
+import pt.up.fe.specs.anycompiler.weaver.joinpoints.AppJp;
 import pt.up.fe.specs.util.SpecsLogs;
 import pt.up.fe.specs.util.classmap.FunctionClassMap;
 
@@ -26,8 +27,18 @@ public class AnyJoinpoints {
     private static final FunctionClassMap<AnyNode, AAnyWeaverJoinPoint> JOINPOINT_FACTORY;
     static {
         JOINPOINT_FACTORY = new FunctionClassMap<>();
-        JOINPOINT_FACTORY.put(GenericAnyNode.class, AnyJp::new);
+        JOINPOINT_FACTORY.put(GenericAnyNode.class, AnyJoinpoints::jpBuilder);
         // JOINPOINT_FACTORY.put(Placeholder.class, node -> new PlaceholderJp(node));
+    }
+
+    private static AAnyWeaverJoinPoint jpBuilder(AnyNode node) {
+
+        if (node.getKind().equals("app")) {
+            return new AppJp(node);
+        }
+
+        // Default
+        return new AnyJp(node);
     }
 
     public static AAnyWeaverJoinPoint createFromLara(Object node) {

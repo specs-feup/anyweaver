@@ -20,7 +20,8 @@ import org.lara.interpreter.weaver.utils.LaraResourceProvider;
  *
  */
 public enum AnyApiResource implements LaraResourceProvider {
-    JOIN_POINTS("JoinPoints.js");
+    JOIN_POINTS("JoinPoints.js"),
+    PARSERS("Parsers.js");
 
     private final String resource;
 
