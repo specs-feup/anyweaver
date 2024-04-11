@@ -25,7 +25,6 @@ import pt.up.fe.specs.anycompiler.ast.AnyNode;
 import pt.up.fe.specs.anycompiler.ast.GenericAnyNode;
 import pt.up.fe.specs.util.SpecsCheck;
 import pt.up.fe.specs.util.SpecsLogs;
-import pt.up.fe.specs.util.exceptions.NotImplementedException;
 
 public class JsonParser implements AnyParser {
 
@@ -33,10 +32,14 @@ public class JsonParser implements AnyParser {
     private final String childrenAttr;
     private final boolean isFlat;
 
+    private int currentId;
+
     public JsonParser(String kindAttr, String childrenAttr, boolean isFlat) {
         this.kindAttr = kindAttr;
         this.childrenAttr = childrenAttr;
         this.isFlat = isFlat;
+
+        currentId = 0;
     }
 
     public JsonParser() {
@@ -57,7 +60,24 @@ public class JsonParser implements AnyParser {
     }
 
     private AnyNode hierarchicalParser(Map<String, Object> code) {
-        throw new NotImplementedException(this);
+        // In hierarchical mode, there is a single object which is a node, and children are inside the corresponding
+        // nodes
+
+        // Reset id
+        currentId = 0;
+
+        var root = parseNodeRecursive(code);
+
+        // Reset id again
+        currentId = 0;
+
+        return root;
+    }
+
+    private String nextId() {
+        var id = "id_" + currentId;
+        currentId++;
+        return id;
     }
 
     private AnyNode flatParser(Map<String, Object> jsonAst) {
@@ -113,7 +133,8 @@ public class JsonParser implements AnyParser {
         for (var key : value.keySet()) {
 
             // Skip children
-            if (key.equals(children)) {
+            // if (key.equals(children)) {
+            if (key.equals(childrenAttr)) {
                 continue;
             }
 
@@ -125,6 +146,41 @@ public class JsonParser implements AnyParser {
 
         children.put(id, childrenIds);
 
+    }
+
+    private GenericAnyNode parseNodeRecursive(Map<String, Object> value) {
+        var id = nextId();
+
+        var kind = value.get(kindAttr).toString();
+        SpecsCheck.checkNotNull(kind, () -> "Node '" + id + "' does not have attribute '" + kindAttr + "'");
+
+        var node = new GenericAnyNode(kind);
+
+        // Set id
+        node.putValue("id", id);
+
+        // Set attributes
+        for (var key : value.keySet()) {
+
+            // Skip children
+            if (key.equals(childrenAttr)) {
+                continue;
+            }
+
+            var attrValue = value.get(key);
+            node.putValue(key, attrValue);
+        }
+
+        // Parse children
+        @SuppressWarnings("unchecked")
+        var childrenUnparsed = (List<Map<String, Object>>) value.get(childrenAttr);
+        SpecsCheck.checkNotNull(childrenUnparsed,
+                () -> "Node '" + id + "' does not have attribute '" + childrenAttr + "'");
+
+        var children = childrenUnparsed.stream().map(child -> parseNodeRecursive(child)).toList();
+        node.setChildren(children);
+
+        return node;
     }
 
     private List<String> getChildrenIds(String id, Map<String, Object> value) {
