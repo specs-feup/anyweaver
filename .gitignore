@@ -33,6 +33,11 @@ Matisse.lara
 !**/run/*.launch
 !**/run/*.deploy
 **/run/*-local.launch
+.gradle/
+build/
+gradle/
+gradlew
+gradlew.bat
 
 
 ### Cache for ivy 
