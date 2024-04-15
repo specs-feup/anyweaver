@@ -196,7 +196,7 @@ public class AnyWeaver extends AAnyWeaver {
 
     @Override
     public List<ResourceProvider> getAspectsAPI() {
-        return ResourceProvider.getResourcesFromEnum(AnyApiResource.class);
+        return ResourceProvider.getResourcesFromEnum(AnyWeaverApiJsResource.class);
     }
 
     @Override

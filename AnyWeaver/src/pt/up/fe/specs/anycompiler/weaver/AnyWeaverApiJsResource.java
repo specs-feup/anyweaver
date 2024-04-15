@@ -1,5 +1,6 @@
+
 /**
- * Copyright 2013 SuikaSoft.
+ * Copyright 2024 SPeCS.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -16,23 +17,26 @@ package pt.up.fe.specs.anycompiler.weaver;
 import org.lara.interpreter.weaver.utils.LaraResourceProvider;
 
 /**
- * @author Joao Bispo
+ * This file has been automatically generated.
+ * 
+ * @author Joao Bispo, Luis Sousa
  *
  */
-public enum AnyApiResource implements LaraResourceProvider {
-    JOIN_POINTS("JoinPoints.js"),
-    PARSERS("Parsers.js");
+public enum AnyWeaverApiJsResource implements LaraResourceProvider {
+
+    DUMMY_JS("dummy.js"),
+    JOINPOINTS_JS("weaver/Joinpoints.js"),
+    PARSERS_JS("weaver/Parsers.js");
 
     private final String resource;
 
-    private static final String WEAVER_PACKAGE = "anycompiler/";
-    private static final String BASE_PACKAGE = "weaver/";
+    private static final String WEAVER_PACKAGE = "anyweaver/";
 
     /**
      * @param resource
      */
-    private AnyApiResource(String resource) {
-        this.resource = WEAVER_PACKAGE + getSeparatorChar() + BASE_PACKAGE + resource;
+    private AnyWeaverApiJsResource (String resource) {
+      this.resource = WEAVER_PACKAGE + getSeparatorChar() + resource;
     }
 
     /* (non-Javadoc)
