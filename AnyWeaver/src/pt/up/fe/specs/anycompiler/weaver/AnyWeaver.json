@@ -9,35 +9,29 @@
 			"children": [
 					{
 						"type": "attribute",
-						"children": [
-									{
-										"type": "String[]",
-										"name": "attributes"
-									}]
-					},
-					{
-						"type": "attribute",
-						"children": [
-									{
-										"type": "String[]",
-										"name": "selects"
-									}]
-					},
-					{
-						"type": "attribute",
-						"children": [
-									{
-										"type": "String[]",
-										"name": "actions"
-									}]
-					},
-					{
-						"type": "attribute",
 						"tooltip": "String representation of the ast.",
 						"children": [
 									{
 										"type": "String",
 										"name": "ast"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
 									}]
 					},
 					{
@@ -50,55 +44,7 @@
 									},
 									{
 										"type": "String",
-										"name": "name"
-									}]
-					},
-					{
-						"type": "attribute",
-						"tooltip": "true if the current join point is an instance of the given type",
-						"children": [
-									{
-										"type": "Boolean",
-										"name": "instanceOf"
-									},
-									{
-										"type": "String",
-										"name": "name"
-									}]
-					},
-					{
-						"type": "action",
-						"children": [
-									{
-										"type": "void",
-										"name": "insert"
-									},
-									{
-										"type": "[before| after| replace]",
-										"name": "position",
-										"defaultValue": ""
-									},
-									{
-										"type": "String",
-										"name": "code",
-										"defaultValue": ""
-									}]
-					},
-					{
-						"type": "action",
-						"children": [
-									{
-										"type": "void",
-										"name": "def"
-									},
-									{
-										"type": "String",
-										"name": "attribute",
-										"defaultValue": ""
-									},
-									{
-										"type": "Object",
-										"name": "value",
+										"name": "name",
 										"defaultValue": ""
 									}]
 					},
@@ -232,35 +178,29 @@
 			"children": [
 					{
 						"type": "attribute",
-						"children": [
-									{
-										"type": "String[]",
-										"name": "attributes"
-									}]
-					},
-					{
-						"type": "attribute",
-						"children": [
-									{
-										"type": "String[]",
-										"name": "selects"
-									}]
-					},
-					{
-						"type": "attribute",
-						"children": [
-									{
-										"type": "String[]",
-										"name": "actions"
-									}]
-					},
-					{
-						"type": "attribute",
 						"tooltip": "String representation of the ast.",
 						"children": [
 									{
 										"type": "String",
 										"name": "ast"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
 									}]
 					},
 					{
@@ -273,55 +213,7 @@
 									},
 									{
 										"type": "String",
-										"name": "name"
-									}]
-					},
-					{
-						"type": "attribute",
-						"tooltip": "true if the current join point is an instance of the given type",
-						"children": [
-									{
-										"type": "Boolean",
-										"name": "instanceOf"
-									},
-									{
-										"type": "String",
-										"name": "name"
-									}]
-					},
-					{
-						"type": "action",
-						"children": [
-									{
-										"type": "void",
-										"name": "insert"
-									},
-									{
-										"type": "[before| after| replace]",
-										"name": "position",
-										"defaultValue": ""
-									},
-									{
-										"type": "String",
-										"name": "code",
-										"defaultValue": ""
-									}]
-					},
-					{
-						"type": "action",
-						"children": [
-									{
-										"type": "void",
-										"name": "def"
-									},
-									{
-										"type": "String",
-										"name": "attribute",
-										"defaultValue": ""
-									},
-									{
-										"type": "Object",
-										"name": "value",
+										"name": "name",
 										"defaultValue": ""
 									}]
 					},
@@ -455,35 +347,29 @@
 			"children": [
 					{
 						"type": "attribute",
-						"children": [
-									{
-										"type": "String[]",
-										"name": "attributes"
-									}]
-					},
-					{
-						"type": "attribute",
-						"children": [
-									{
-										"type": "String[]",
-										"name": "selects"
-									}]
-					},
-					{
-						"type": "attribute",
-						"children": [
-									{
-										"type": "String[]",
-										"name": "actions"
-									}]
-					},
-					{
-						"type": "attribute",
 						"tooltip": "String representation of the ast.",
 						"children": [
 									{
 										"type": "String",
 										"name": "ast"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
 									}]
 					},
 					{
@@ -496,20 +382,8 @@
 									},
 									{
 										"type": "String",
-										"name": "name"
-									}]
-					},
-					{
-						"type": "attribute",
-						"tooltip": "true if the current join point is an instance of the given type",
-						"children": [
-									{
-										"type": "Boolean",
-										"name": "instanceOf"
-									},
-									{
-										"type": "String",
-										"name": "name"
+										"name": "name",
+										"defaultValue": ""
 									}]
 					},
 					{
@@ -523,42 +397,6 @@
 									{
 										"type": "joinpoint",
 										"name": "ast",
-										"defaultValue": ""
-									}]
-					},
-					{
-						"type": "action",
-						"children": [
-									{
-										"type": "void",
-										"name": "insert"
-									},
-									{
-										"type": "[before| after| replace]",
-										"name": "position",
-										"defaultValue": ""
-									},
-									{
-										"type": "String",
-										"name": "code",
-										"defaultValue": ""
-									}]
-					},
-					{
-						"type": "action",
-						"children": [
-									{
-										"type": "void",
-										"name": "def"
-									},
-									{
-										"type": "String",
-										"name": "attribute",
-										"defaultValue": ""
-									},
-									{
-										"type": "Object",
-										"name": "value",
 										"defaultValue": ""
 									}]
 					},

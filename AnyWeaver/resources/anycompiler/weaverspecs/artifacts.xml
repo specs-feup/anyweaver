@@ -11,6 +11,10 @@
 		<!--<attribute name="type" type="String"	tooltip="The type of the node" /> -->
 		<attribute name="ast" type="String"	tooltip="String representation of the ast." />
 
+		<attribute name="children" type="joinpoint[]"
+				   tooltip="Returns an array with the children of the node, ignoring null nodes" />
+		<attribute name="descendants" type="joinpoint[]"
+				   tooltip="Retrieves all descendants of the join point" />
 
 		<attribute name="getValue" type="Object" tooltip="Gets an attribute with the given name.">
 			<parameter name="name" type="String"/>

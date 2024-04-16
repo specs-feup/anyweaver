@@ -77,7 +77,9 @@ public abstract class AAny extends AAnyWeaverJoinPoint {
      */
     protected enum AnyAttributes {
         GETVALUE("getValue"),
-        AST("ast");
+        AST("ast"),
+        CHILDREN("children"),
+        DESCENDANTS("descendants");
         private String name;
 
         /**

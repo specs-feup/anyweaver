@@ -32,8 +32,7 @@ public abstract class AAnyWeaverJoinPoint extends AJoinPoint {
      */
     @Override
     public <T extends AJoinPoint> List<? extends T> select(Class<T> joinPointClass, SelectOp op) {
-        throw new RuntimeException(
-                "Generic select function not implemented yet. Implement it in order to use the default implementations of select");
+        return getNode().getChildrenStream().map(c -> AnyJoinpoints.create(c, joinPointClass)).toList();
     }
 
     @Override
@@ -49,6 +48,16 @@ public abstract class AAnyWeaverJoinPoint extends AJoinPoint {
     @Override
     public String getJoinPointType() {
         return getNode().getKind();
+    }
+
+    @Override
+    public AJoinPoint[] getChildrenArrayImpl() {
+        return getNode().getChildrenStream().map(n -> (AJoinPoint) AnyJoinpoints.create(n)).toArray(size -> new AJoinPoint[size]);
+    }
+
+    @Override
+    public Object getDescendantsImpl() {
+        return getNode().getDescendantsStream().map(n -> (AJoinPoint) AnyJoinpoints.create(n)).toArray(size -> new AJoinPoint[size]);
     }
 
     /*
