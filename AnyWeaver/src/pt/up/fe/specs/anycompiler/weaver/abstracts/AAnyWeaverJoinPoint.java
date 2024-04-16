@@ -52,12 +52,14 @@ public abstract class AAnyWeaverJoinPoint extends AJoinPoint {
 
     @Override
     public AJoinPoint[] getChildrenArrayImpl() {
-        return getNode().getChildrenStream().map(n -> (AJoinPoint) AnyJoinpoints.create(n)).toArray(size -> new AJoinPoint[size]);
+        return getNode().getChildrenStream().map(n -> (AJoinPoint) AnyJoinpoints.create(n))
+                .toArray(size -> new AJoinPoint[size]);
     }
 
     @Override
-    public Object getDescendantsImpl() {
-        return getNode().getDescendantsStream().map(n -> (AJoinPoint) AnyJoinpoints.create(n)).toArray(size -> new AJoinPoint[size]);
+    public AJoinPoint[] getDescendantsArrayImpl() {
+        return getNode().getDescendantsStream().map(n -> (AJoinPoint) AnyJoinpoints.create(n))
+                .toArray(size -> new AJoinPoint[size]);
     }
 
     /*

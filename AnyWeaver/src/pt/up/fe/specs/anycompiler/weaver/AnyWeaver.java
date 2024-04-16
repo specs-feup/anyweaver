@@ -2,14 +2,18 @@ package pt.up.fe.specs.anycompiler.weaver;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.lara.interpreter.weaver.ast.AstMethods;
 import org.lara.interpreter.weaver.interf.AGear;
 import org.lara.interpreter.weaver.interf.JoinPoint;
 import org.lara.interpreter.weaver.options.WeaverOption;
+import org.lara.interpreter.weaver.utils.LaraResourceProvider;
 import org.lara.language.specification.LanguageSpecification;
 import org.lara.language.specification.dsl.LanguageSpecificationV2;
 import org.suikasoft.jOptions.Interfaces.DataStore;
@@ -196,11 +200,19 @@ public class AnyWeaver extends AAnyWeaver {
 
     @Override
     public List<ResourceProvider> getAspectsAPI() {
-        return ResourceProvider.getResourcesFromEnum(AnyWeaverApiJsResource.class);
+        return Collections.emptyList();
     }
 
     @Override
     public JoinPoint getRootJp() {
         return AnyJoinpoints.create(root);
+    }
+
+    @Override
+    public List<LaraResourceProvider> getNpmResources() {
+        return Stream.concat(
+                super.getNpmResources().stream(),
+                Arrays.asList(AnyWeaverApiJsResource.values()).stream())
+                .collect(Collectors.toList());
     }
 }

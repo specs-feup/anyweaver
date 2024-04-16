@@ -28,6 +28,7 @@ dependencies {
 
 	implementation ":jOptions"
 	implementation ":SpecsUtils"
+	implementation ":JsEngine"
 
 	implementation ":LanguageSpecification"
 	implementation ":LaraFramework"
