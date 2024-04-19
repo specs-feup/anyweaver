@@ -1,6 +1,10 @@
 package pt.up.fe.specs.anycompiler.weaver;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -9,13 +13,19 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.lara.interpreter.joptions.config.interpreter.LaraIKeyFactory;
+import org.lara.interpreter.joptions.keys.FileList;
 import org.lara.interpreter.weaver.ast.AstMethods;
 import org.lara.interpreter.weaver.interf.AGear;
 import org.lara.interpreter.weaver.interf.JoinPoint;
+import org.lara.interpreter.weaver.options.OptionArguments;
 import org.lara.interpreter.weaver.options.WeaverOption;
+import org.lara.interpreter.weaver.options.WeaverOptionBuilder;
 import org.lara.interpreter.weaver.utils.LaraResourceProvider;
 import org.lara.language.specification.LanguageSpecification;
 import org.lara.language.specification.dsl.LanguageSpecificationV2;
+import org.suikasoft.jOptions.Datakey.DataKey;
+import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.anycompiler.ast.AnyNode;
@@ -25,6 +35,8 @@ import pt.up.fe.specs.anycompiler.weaver.abstracts.weaver.AAnyWeaver;
 import pt.up.fe.specs.util.SpecsIo;
 import pt.up.fe.specs.util.SpecsLogs;
 import pt.up.fe.specs.util.providers.ResourceProvider;
+
+import javax.swing.*;
 
 /**
  * Weaver Implementation for SmaliWeaver<br>
@@ -38,7 +50,14 @@ import pt.up.fe.specs.util.providers.ResourceProvider;
  */
 public class AnyWeaver extends AAnyWeaver {
 
+    public final static DataKey<FileList> JAR_FILES = LaraIKeyFactory.fileList("jarPaths", JFileChooser.FILES_AND_DIRECTORIES, Set.of("jar"))
+            .setLabel("Paths to JARs")
+            .setDefault(() -> FileList.newInstance());
+
+
+    private DataStore args;
     private AnyNode root;
+    private URLClassLoader classLoader;
 
     /**
      * Thread-scope WeaverEngine
@@ -63,6 +82,7 @@ public class AnyWeaver extends AAnyWeaver {
     public AnyWeaver() {
         // this.parser = new SmaliParser();
         root = null;
+        classLoader = null;
     }
 
     /**
@@ -89,6 +109,14 @@ public class AnyWeaver extends AAnyWeaver {
      */
     @Override
     public boolean begin(List<File> sources, File outputDir, DataStore args) {
+        this.args = args;
+//        System.out.println("SOURCES: " + sources);
+//        System.out.println("JAR PATHS: " + args.get(JAR_FILES).getFiles());
+
+        // Load JARs to classloader
+        loadJars();
+
+
 
         // For now, using json parser
 
@@ -112,6 +140,55 @@ public class AnyWeaver extends AAnyWeaver {
         // // Initialize weaver with the input file/folder
         // // throw new UnsupportedOperationException("Method begin for SmaliWeaver is not yet implemented");
         return true;
+    }
+
+//    public Object get
+
+    private void loadJars() {
+        // Get external jar files
+        var jarFiles = getJarFiles();
+
+        var urls = jarFiles.stream()
+                .map(f -> {
+                    try {
+                        System.out.println("Loading JAR " + f);
+                        return f.toURI().toURL();
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException("Could not convert JAR file to URL", e);
+                    }
+                })
+                .toArray(s -> new URL[s]);
+
+        classLoader = new URLClassLoader(urls, getClass().getClassLoader()
+        );
+    }
+
+    public Class<?> getClass(String name) {
+        try {
+            return classLoader.loadClass(name);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Could not find class", e);
+        }
+    }
+
+    private List<File> getJarFiles() {
+        var jarPaths = args.get(JAR_FILES);
+
+//        jarPaths.getFiles().stream()
+//                .filter(jarPaths.)
+
+        var jarFiles = new ArrayList<File>();
+
+        for(var jarPath : jarPaths) {
+            if(!jarPath.exists()) {
+                SpecsLogs.info("Jar path '"+jarPath+"' does not exist");
+                continue;
+            }
+
+            jarFiles.addAll(jarPath.isDirectory() ? SpecsIo.getFilesRecursive(jarPath, "jar") : List.of(jarPath));
+        }
+
+        return jarFiles;
     }
 
     private LanguageSpecificationV2 buildLangSpec() {
@@ -162,7 +239,14 @@ public class AnyWeaver extends AAnyWeaver {
     @Override
     public boolean close() {
         // Terminate weaver execution with final steps required and writing output files
-        // throw new UnsupportedOperationException("Method close for SmaliWeaver is not yet implemented");
+
+        if(classLoader != null) {
+            try {
+                classLoader.close();
+            } catch (IOException e) {
+                throw new RuntimeException("Could not close custom class loader", e);
+            }
+        }
         return true;
     }
 
@@ -185,7 +269,7 @@ public class AnyWeaver extends AAnyWeaver {
 
     @Override
     public List<WeaverOption> getOptions() {
-        return Collections.emptyList();
+        return List.of(WeaverOptionBuilder.build("jp", "jar-paths", OptionArguments.ONE_ARG, "dir1/file1[;dir2/file2]*", "JAR files that will be added to a separate classpath and will be accessible in scripts", JAR_FILES));
     }
 
     @Override
