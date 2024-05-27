@@ -84,4 +84,9 @@ public abstract class AAnyWeaverJoinPoint extends AJoinPoint {
         return AnyJoinpoints.create(getNode().getParent());
     }
 
+    @Override
+    public AJoinPoint getParentImpl() {
+        return AnyJoinpoints.create(getNode().getParent());
+    }
+
 }

@@ -10,8 +10,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import javax.swing.JFileChooser;
 
 import org.lara.interpreter.joptions.config.interpreter.LaraIKeyFactory;
 import org.lara.interpreter.joptions.keys.FileList;
@@ -25,7 +25,6 @@ import org.lara.interpreter.weaver.utils.LaraResourceProvider;
 import org.lara.language.specification.LanguageSpecification;
 import org.lara.language.specification.dsl.LanguageSpecificationV2;
 import org.suikasoft.jOptions.Datakey.DataKey;
-import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.anycompiler.ast.AnyNode;
@@ -36,13 +35,11 @@ import pt.up.fe.specs.util.SpecsIo;
 import pt.up.fe.specs.util.SpecsLogs;
 import pt.up.fe.specs.util.providers.ResourceProvider;
 
-import javax.swing.*;
-
 /**
  * Weaver Implementation for SmaliWeaver<br>
  * Since the generated abstract classes are always overwritten, their implementation should be done by extending those
  * abstract classes with user-defined classes.<br>
- * The abstract class {@link pt.up.fe.specs.smali.weaver.abstracts.ASmaliWeaverJoinPoint} can be used to add
+ * The abstract class {@link pt.up.fe.specs.anycompiler.weaver.abstracts.AAnyWeaverJoinPoint} can be used to add
  * user-defined methods and fields which the user intends to add for all join points and are not intended to be used in
  * LARA aspects.
  * 
@@ -50,10 +47,10 @@ import javax.swing.*;
  */
 public class AnyWeaver extends AAnyWeaver {
 
-    public final static DataKey<FileList> JAR_FILES = LaraIKeyFactory.fileList("jarPaths", JFileChooser.FILES_AND_DIRECTORIES, Set.of("jar"))
+    public final static DataKey<FileList> JAR_FILES = LaraIKeyFactory
+            .fileList("jarPaths", JFileChooser.FILES_AND_DIRECTORIES, Set.of("jar"))
             .setLabel("Paths to JARs")
             .setDefault(() -> FileList.newInstance());
-
 
     private DataStore args;
     private AnyNode root;
@@ -110,13 +107,11 @@ public class AnyWeaver extends AAnyWeaver {
     @Override
     public boolean begin(List<File> sources, File outputDir, DataStore args) {
         this.args = args;
-//        System.out.println("SOURCES: " + sources);
-//        System.out.println("JAR PATHS: " + args.get(JAR_FILES).getFiles());
+        // System.out.println("SOURCES: " + sources);
+        // System.out.println("JAR PATHS: " + args.get(JAR_FILES).getFiles());
 
         // Load JARs to classloader
         loadJars();
-
-
 
         // For now, using json parser
 
@@ -142,7 +137,7 @@ public class AnyWeaver extends AAnyWeaver {
         return true;
     }
 
-//    public Object get
+    // public Object get
 
     private void loadJars() {
         // Get external jar files
@@ -159,8 +154,7 @@ public class AnyWeaver extends AAnyWeaver {
                 })
                 .toArray(s -> new URL[s]);
 
-        classLoader = new URLClassLoader(urls, getClass().getClassLoader()
-        );
+        classLoader = new URLClassLoader(urls, getClass().getClassLoader());
     }
 
     public Class<?> getClass(String name) {
@@ -174,14 +168,14 @@ public class AnyWeaver extends AAnyWeaver {
     private List<File> getJarFiles() {
         var jarPaths = args.get(JAR_FILES);
 
-//        jarPaths.getFiles().stream()
-//                .filter(jarPaths.)
+        // jarPaths.getFiles().stream()
+        // .filter(jarPaths.)
 
         var jarFiles = new ArrayList<File>();
 
-        for(var jarPath : jarPaths) {
-            if(!jarPath.exists()) {
-                SpecsLogs.info("Jar path '"+jarPath+"' does not exist");
+        for (var jarPath : jarPaths) {
+            if (!jarPath.exists()) {
+                SpecsLogs.info("Jar path '" + jarPath + "' does not exist");
                 continue;
             }
 
@@ -240,7 +234,7 @@ public class AnyWeaver extends AAnyWeaver {
     public boolean close() {
         // Terminate weaver execution with final steps required and writing output files
 
-        if(classLoader != null) {
+        if (classLoader != null) {
             try {
                 classLoader.close();
             } catch (IOException e) {
@@ -269,7 +263,8 @@ public class AnyWeaver extends AAnyWeaver {
 
     @Override
     public List<WeaverOption> getOptions() {
-        return List.of(WeaverOptionBuilder.build("jp", "jar-paths", OptionArguments.ONE_ARG, "dir1/file1[;dir2/file2]*", "JAR files that will be added to a separate classpath and will be accessible in scripts", JAR_FILES));
+        return List.of(WeaverOptionBuilder.build("jp", "jar-paths", OptionArguments.ONE_ARG, "dir1/file1[;dir2/file2]*",
+                "JAR files that will be added to a separate classpath and will be accessible in scripts", JAR_FILES));
     }
 
     @Override
@@ -293,10 +288,7 @@ public class AnyWeaver extends AAnyWeaver {
     }
 
     @Override
-    public List<LaraResourceProvider> getNpmResources() {
-        return Stream.concat(
-                super.getNpmResources().stream(),
-                Arrays.asList(AnyWeaverApiJsResource.values()).stream())
-                .collect(Collectors.toList());
+    protected List<LaraResourceProvider> getCustomNpmResources() {
+        return Arrays.asList(AnyWeaverApiJsResource.values());
     }
 }

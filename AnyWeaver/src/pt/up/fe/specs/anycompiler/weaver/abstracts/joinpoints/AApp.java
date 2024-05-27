@@ -107,6 +107,7 @@ public abstract class AApp extends AAnyWeaverJoinPoint {
      */
     protected enum AppAttributes {
         GETVALUE("getValue"),
+        PARENT("parent"),
         AST("ast"),
         CHILDREN("children"),
         DESCENDANTS("descendants");

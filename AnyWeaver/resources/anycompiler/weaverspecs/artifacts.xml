@@ -19,6 +19,9 @@
 		<attribute name="getValue" type="Object" tooltip="Gets an attribute with the given name.">
 			<parameter name="name" type="String"/>
 		</attribute>
+		
+		<attribute name="parent" type="joinpoint"
+				   tooltip="the parent of this node, or undefined if it is the root node" />		
 	</global>
 
 

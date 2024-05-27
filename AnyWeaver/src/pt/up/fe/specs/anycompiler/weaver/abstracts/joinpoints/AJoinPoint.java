@@ -325,6 +325,7 @@ public abstract class AJoinPoint extends JoinPoint {
         attributes.add("children");
         attributes.add("descendants");
         attributes.add("getValue(String name)");
+        attributes.add("parent");
     }
 
     /**
@@ -440,6 +441,29 @@ public abstract class AJoinPoint extends JoinPoint {
         	return result!=null?result:getUndefinedValue();
         } catch(Exception e) {
         	throw new AttributeException(get_class(), "getValue", e);
+        }
+    }
+
+    /**
+     * the parent of this node, or undefined if it is the root node
+     */
+    public abstract AJoinPoint getParentImpl();
+
+    /**
+     * the parent of this node, or undefined if it is the root node
+     */
+    public final Object getParent() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "parent", Optional.empty());
+        	}
+        	AJoinPoint result = this.getParentImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "parent", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "parent", e);
         }
     }
 
