@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.swing.JFileChooser;
 
@@ -287,8 +289,10 @@ public class AnyWeaver extends AAnyWeaver {
         return AnyJoinpoints.create(root);
     }
 
-    @Override
-    protected List<LaraResourceProvider> getCustomNpmResources() {
-        return Arrays.asList(AnyWeaverApiJsResource.values());
-    }
+    public List<LaraResourceProvider> getNpmResources() {
+            return Stream.concat(
+            super.getNpmResources().stream(),
+                    Arrays.asList(AnyWeaverApiJsResource.values()).stream())
+                .collect(Collectors.toList());
+        }
 }
