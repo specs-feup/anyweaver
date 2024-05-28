@@ -15,6 +15,14 @@ export class Joinpoint extends LaraJoinPoint {
      */
     get ast() { return wrapJoinPoint(this._javaObject.getAst()); }
     /**
+     * Returns an array with the children of the node, ignoring null nodes
+     */
+    get children() { return wrapJoinPoint(this._javaObject.getChildren()); }
+    /**
+     * Retrieves all descendants of the join point
+     */
+    get descendants() { return wrapJoinPoint(this._javaObject.getDescendants()); }
+    /**
      * Gets an attribute with the given name.
      */
     getValue(name) { return wrapJoinPoint(this._javaObject.getValue(unwrapJoinPoint(name))); }
@@ -43,23 +51,15 @@ export class Joinpoint extends LaraJoinPoint {
  * Any node
  */
 export class Any extends Joinpoint {
-    get attributes() { return wrapJoinPoint(this._javaObject.getAttributes()); }
-    get selects() { return wrapJoinPoint(this._javaObject.getSelects()); }
-    get actions() { return wrapJoinPoint(this._javaObject.getActions()); }
-    def(attribute, value) { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
 }
 /**
  * Top-level node
  */
 export class App extends Joinpoint {
-    get attributes() { return wrapJoinPoint(this._javaObject.getAttributes()); }
-    get selects() { return wrapJoinPoint(this._javaObject.getSelects()); }
-    get actions() { return wrapJoinPoint(this._javaObject.getActions()); }
     /**
      * Adds an AST to the current program, returns the inserted join point
      */
     addAst(ast) { return wrapJoinPoint(this._javaObject.addAst(unwrapJoinPoint(ast))); }
-    def(attribute, value) { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
 }
 const JoinpointMapper = {
     joinpoint: Joinpoint,

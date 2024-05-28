@@ -49,14 +49,9 @@ import pt.up.fe.specs.util.providers.ResourceProvider;
  */
 public class AnyWeaver extends AAnyWeaver {
 
-    public final static DataKey<FileList> JAR_FILES = LaraIKeyFactory
-            .fileList("jarPaths", JFileChooser.FILES_AND_DIRECTORIES, Set.of("jar"))
-            .setLabel("Paths to JARs")
-            .setDefault(() -> FileList.newInstance());
-
     private DataStore args;
     private AnyNode root;
-    private URLClassLoader classLoader;
+    //private URLClassLoader classLoader;
 
     /**
      * Thread-scope WeaverEngine
@@ -81,7 +76,7 @@ public class AnyWeaver extends AAnyWeaver {
     public AnyWeaver() {
         // this.parser = new SmaliParser();
         root = null;
-        classLoader = null;
+        //classLoader = null;
     }
 
     /**
@@ -98,7 +93,7 @@ public class AnyWeaver extends AAnyWeaver {
     /**
      * Set a file/folder in the weaver if it is valid file/folder type for the weaver.
      * 
-     * @param source
+     * @param sources
      *            the file with the source code
      * @param outputDir
      *            output directory for the generated file(s)
@@ -112,8 +107,6 @@ public class AnyWeaver extends AAnyWeaver {
         // System.out.println("SOURCES: " + sources);
         // System.out.println("JAR PATHS: " + args.get(JAR_FILES).getFiles());
 
-        // Load JARs to classloader
-        loadJars();
 
         // For now, using json parser
 
@@ -139,53 +132,7 @@ public class AnyWeaver extends AAnyWeaver {
         return true;
     }
 
-    // public Object get
 
-    private void loadJars() {
-        // Get external jar files
-        var jarFiles = getJarFiles();
-
-        var urls = jarFiles.stream()
-                .map(f -> {
-                    try {
-                        System.out.println("Loading JAR " + f);
-                        return f.toURI().toURL();
-                    } catch (MalformedURLException e) {
-                        throw new RuntimeException("Could not convert JAR file to URL", e);
-                    }
-                })
-                .toArray(s -> new URL[s]);
-
-        classLoader = new URLClassLoader(urls, getClass().getClassLoader());
-    }
-
-    public Class<?> getClass(String name) {
-        try {
-            return classLoader.loadClass(name);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Could not find class", e);
-        }
-    }
-
-    private List<File> getJarFiles() {
-        var jarPaths = args.get(JAR_FILES);
-
-        // jarPaths.getFiles().stream()
-        // .filter(jarPaths.)
-
-        var jarFiles = new ArrayList<File>();
-
-        for (var jarPath : jarPaths) {
-            if (!jarPath.exists()) {
-                SpecsLogs.info("Jar path '" + jarPath + "' does not exist");
-                continue;
-            }
-
-            jarFiles.addAll(jarPath.isDirectory() ? SpecsIo.getFilesRecursive(jarPath, "jar") : List.of(jarPath));
-        }
-
-        return jarFiles;
-    }
 
     private LanguageSpecificationV2 buildLangSpec() {
 
@@ -235,14 +182,6 @@ public class AnyWeaver extends AAnyWeaver {
     @Override
     public boolean close() {
         // Terminate weaver execution with final steps required and writing output files
-
-        if (classLoader != null) {
-            try {
-                classLoader.close();
-            } catch (IOException e) {
-                throw new RuntimeException("Could not close custom class loader", e);
-            }
-        }
         return true;
     }
 
@@ -265,8 +204,7 @@ public class AnyWeaver extends AAnyWeaver {
 
     @Override
     public List<WeaverOption> getOptions() {
-        return List.of(WeaverOptionBuilder.build("jp", "jar-paths", OptionArguments.ONE_ARG, "dir1/file1[;dir2/file2]*",
-                "JAR files that will be added to a separate classpath and will be accessible in scripts", JAR_FILES));
+        return List.of();
     }
 
     @Override
@@ -289,10 +227,8 @@ public class AnyWeaver extends AAnyWeaver {
         return AnyJoinpoints.create(root);
     }
 
-    public List<LaraResourceProvider> getNpmResources() {
-            return Stream.concat(
-            super.getNpmResources().stream(),
-                    Arrays.asList(AnyWeaverApiJsResource.values()).stream())
-                .collect(Collectors.toList());
-        }
+    @Override
+    protected List<LaraResourceProvider> getWeaverNpmResources() {
+        return Arrays.asList(AnyWeaverApiJsResource.values());
+    }
 }
