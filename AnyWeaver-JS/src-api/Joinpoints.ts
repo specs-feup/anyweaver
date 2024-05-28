@@ -40,11 +40,6 @@ export class Joinpoint extends LaraJoinPoint {
    */
   getValue(name: string): object { return wrapJoinPoint(this._javaObject.getValue(unwrapJoinPoint(name))); }
   /**
-   * True if the current join point is an instance of the given type
-   */
-  instanceOf(name: string): boolean { return wrapJoinPoint(this._javaObject.instanceOf(unwrapJoinPoint(name))); }
-  insert(position: "before" | "after" | "replace", code: string): void { return wrapJoinPoint(this._javaObject.insert(unwrapJoinPoint(position), unwrapJoinPoint(code))); }
-  /**
    * Removes the node associated to this joinpoint from the AST
    */
   detach(): Joinpoint { return wrapJoinPoint(this._javaObject.detach()); }
@@ -98,24 +93,16 @@ export class Joinpoint extends LaraJoinPoint {
    * Any node
    */
 export class Any extends Joinpoint {
-  get attributes(): string[] { return wrapJoinPoint(this._javaObject.getAttributes()) }
-  get selects(): string[] { return wrapJoinPoint(this._javaObject.getSelects()) }
-  get actions(): string[] { return wrapJoinPoint(this._javaObject.getActions()) }
-  def(attribute: string, value: object): void { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
 }
 
   /**
    * Top-level node
    */
 export class App extends Joinpoint {
-  get attributes(): string[] { return wrapJoinPoint(this._javaObject.getAttributes()) }
-  get selects(): string[] { return wrapJoinPoint(this._javaObject.getSelects()) }
-  get actions(): string[] { return wrapJoinPoint(this._javaObject.getActions()) }
   /**
    * Adds an AST to the current program, returns the inserted join point
    */
   addAst(ast: Joinpoint): Joinpoint { return wrapJoinPoint(this._javaObject.addAst(unwrapJoinPoint(ast))); }
-  def(attribute: string, value: object): void { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
 }
 
 const JoinpointMapper: JoinpointMapperType = {
