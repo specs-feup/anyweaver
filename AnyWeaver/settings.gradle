@@ -11,3 +11,4 @@ includeBuild("../../lara-framework/LARAI")
 includeBuild("../../lara-framework/WeaverInterface")
 
 includeBuild("../../anyweaver/AnyAst")
+includeBuild("../../anyweaver/AnyWeaverSpecs")

@@ -1,5 +1,5 @@
 plugins {
- 	id 'distribution'
+    id 'distribution'
 }
 
 // Java project
@@ -16,78 +16,61 @@ java {
 
 // Repositories providers
 repositories {
-	// Gearman
-	maven { url "https://oss.sonatype.org/content/repositories/snapshots"}
+    // Gearman
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 
     mavenCentral()
 }
 
 dependencies {
-	implementation "junit:junit:4.12"     
+    implementation "junit:junit:4.12"
 
 
-	implementation ":jOptions"
-	implementation ":SpecsUtils"
-	implementation ":JsEngine"
+    implementation ":jOptions"
+    implementation ":SpecsUtils"
+    implementation ":JsEngine"
 
-	implementation ":LanguageSpecification"
-	implementation ":LaraFramework"
-	implementation ":LaraUtils"
-	implementation ":LARAI"
-	implementation ":WeaverInterface"
-	
-	implementation ":AnyAst"
+    implementation ":LanguageSpecification"
+    implementation ":LaraFramework"
+    implementation ":LaraUtils"
+    implementation ":LARAI"
+    implementation ":WeaverInterface"
+
+    implementation ":AnyAst"
+    implementation ":AnyWeaverSpecs"
 
 }
 
 java {
-	withSourcesJar()
+    withSourcesJar()
 }
 
 // Project sources
 sourceSets {
-   main {
-      java {
-         srcDir 'src'
-      }
+    main {
+        java {
+            srcDir 'src'
+        }
 
-	  resources {
-		srcDir 'resources'
-	  }      
-   }
-	
-   /*
-   test {
-      java {
-         srcDir 'test'
-      }
-	  
-	  resources {
-		srcDir 'resources'
-	  }
-   }
-   */
-   
+        resources {
+            srcDir 'resources'
+        }
+    }
+
+    /*
+    test {
+       java {
+          srcDir 'test'
+       }
+
+       resources {
+         srcDir 'resources'
+       }
+    }
+    */
+
 }
 
 application {
     mainClass.set("pt.up.fe.specs.anycompiler.weaver.AnyWeaverLauncher")
-}
-
-// Weaver Generator
-task weaverGenerator(type: JavaExec) {
-	group = "Execution"
-	description = "Generates the join point classes from the Language Specification"
-	classpath = sourceSets.main.runtimeClasspath
-	mainClass = 'org.lara.interpreter.weaver.generator.commandline.WeaverGenerator'
-	args = [
-			'-w', 'AnyWeaver',
-			'-x', './resources/anycompiler/weaverspecs',
-			'-o', './src',
-			'-p', 'pt.up.fe.specs.anycompiler.weaver',
-			'-n', 'pt.up.fe.specs.anycompiler.ast.AnyNode',
-			'-j',
-			'-e',
-			'-d'
-	]
 }
