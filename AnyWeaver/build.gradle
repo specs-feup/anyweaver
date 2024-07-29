@@ -74,3 +74,12 @@ sourceSets {
 application {
     mainClass.set("pt.up.fe.specs.anycompiler.weaver.AnyWeaverLauncher")
 }
+
+// Clava
+task anyweaver(type: JavaExec) {
+    group = "Execution"
+    description = "Launches AnyWeaver"
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'pt.up.fe.specs.anycompiler.weaver.AnyWeaverLauncher'
+    args = []
+}
