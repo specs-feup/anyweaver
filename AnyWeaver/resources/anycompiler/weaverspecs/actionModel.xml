@@ -47,6 +47,11 @@
 	<!-- Removes node associated to the joinpoint from the AST -->
 	<action name="detach" return="joinpoint" tooltip="Removes the node associated to this joinpoint from the AST"/>
 
+	<action name="setValue" return="Object" tooltip="Sets the value of an attribute, returns the previous set value">
+		<parameter name="name" type="String" />
+		<parameter name="value" type="Object" />		
+	</action>
+
 	<!-- APP -->
 	<action name="addAst" class="app" return="joinpoint" tooltip="Adds an AST to the current program, returns the inserted join point">
 		<parameter name="ast" type="joinpoint" />

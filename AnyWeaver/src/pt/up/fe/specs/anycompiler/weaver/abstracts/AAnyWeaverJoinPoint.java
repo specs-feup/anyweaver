@@ -1,17 +1,16 @@
 package pt.up.fe.specs.anycompiler.weaver.abstracts;
 
-import java.util.List;
-import java.util.stream.Stream;
-
 import org.lara.interpreter.weaver.interf.JoinPoint;
 import org.lara.interpreter.weaver.interf.SelectOp;
-
 import pt.up.fe.specs.anycompiler.weaver.AnyJoinpoints;
 import pt.up.fe.specs.anycompiler.weaver.abstracts.joinpoints.AJoinPoint;
 
+import java.util.List;
+import java.util.stream.Stream;
+
 /**
  * Abstract class which can be edited by the developer. This class will not be overwritten.
- * 
+ *
  * @author Lara Weaver Generator
  */
 public abstract class AAnyWeaverJoinPoint extends AJoinPoint {
@@ -42,7 +41,12 @@ public abstract class AAnyWeaverJoinPoint extends AJoinPoint {
 
     @Override
     public Object getValueImpl(String name) {
-        return getNode().getValue(name);
+        return getNode().getObject(name);
+    }
+
+    @Override
+    public Object setValueImpl(String name, Object value) {
+        return getNode().putObject(name, value);
     }
 
     @Override
@@ -76,7 +80,7 @@ public abstract class AAnyWeaverJoinPoint extends AJoinPoint {
 
     /**
      * Implement this method and getJpChildrenStream() in order to obtain tree-like functionality (descendants, etc).
-     * 
+     *
      * @return
      */
     @Override

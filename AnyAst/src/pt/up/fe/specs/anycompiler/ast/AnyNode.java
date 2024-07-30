@@ -62,7 +62,7 @@ public abstract class AnyNode extends ATreeNode<AnyNode> implements Attributes {
         return putObject(attribute, value);
     }
 
-    public abstract Collection<String> getAttributes();
+//    public abstract Collection<String> getAttributes();
 
     /**
      * This method receives a string, getAncestor methods that receive a class will not check the kind of the AnyNode.

@@ -177,6 +177,25 @@
 										"name": "node",
 										"defaultValue": ""
 									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Sets the value of an attribute, returns the previous set value",
+						"children": [
+									{
+										"type": "Object",
+										"name": "setValue"
+									},
+									{
+										"type": "String",
+										"name": "name",
+										"defaultValue": ""
+									},
+									{
+										"type": "Object",
+										"name": "value",
+										"defaultValue": ""
+									}]
 					}]
 		},
 		{
@@ -353,6 +372,25 @@
 									{
 										"type": "String[]",
 										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Sets the value of an attribute, returns the previous set value",
+						"children": [
+									{
+										"type": "Object",
+										"name": "setValue"
+									},
+									{
+										"type": "String",
+										"name": "name",
+										"defaultValue": ""
+									},
+									{
+										"type": "Object",
+										"name": "value",
 										"defaultValue": ""
 									}]
 					}]
@@ -545,6 +583,25 @@
 									{
 										"type": "String[]",
 										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Sets the value of an attribute, returns the previous set value",
+						"children": [
+									{
+										"type": "Object",
+										"name": "setValue"
+									},
+									{
+										"type": "String",
+										"name": "name",
+										"defaultValue": ""
+									},
+									{
+										"type": "Object",
+										"name": "value",
 										"defaultValue": ""
 									}]
 					}]
