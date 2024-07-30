@@ -17,7 +17,7 @@ import java.util.*;
 
 public class GenericAnyNode extends AnyNode {
 
-    private String kind;
+    private final String kind;
 
     private final Map<String, Object> attributes;
     private Collection<String> hierarchy;
@@ -56,10 +56,11 @@ public class GenericAnyNode extends AnyNode {
         return kind;
     }
 
-    public void setKind(String kind) {
-        this.kind = kind;
-    }
-
+    /*
+        public void setKind(String kind) {
+            this.kind = kind;
+        }
+    */
     @Override
     public Object getObject(String attribute) {
         // System.out.println("GENERIC: " + attributes);
