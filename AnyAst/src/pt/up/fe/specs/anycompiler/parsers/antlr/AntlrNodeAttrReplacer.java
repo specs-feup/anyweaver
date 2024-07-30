@@ -16,19 +16,19 @@ package pt.up.fe.specs.anycompiler.parsers.antlr;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.tree.ParseTree;
 import pt.up.fe.specs.anycompiler.ast.AnyNode;
-import pt.up.fe.specs.anycompiler.ast.visit.PreorderJmmVisitor;
+import pt.up.fe.specs.anycompiler.ast.visit.PreorderVisitor;
 
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class AntlrNodeAttrReplacer extends PreorderJmmVisitor<Void, Void> {
+public class AntlrNodeAttrReplacer extends PreorderVisitor<Void, Void> {
 
-    private final Map<ParseTree, AnyNode> antlrToJmm;
+    private final Map<ParseTree, AnyNode> antlrToAny;
     private final Set<String> ignoreList;
 
-    public AntlrNodeAttrReplacer(Map<ParseTree, AnyNode> antlrToJmm, Parser parser) {
-        this.antlrToJmm = antlrToJmm;
+    public AntlrNodeAttrReplacer(Map<ParseTree, AnyNode> antlrToAny, Parser parser) {
+        this.antlrToAny = antlrToAny;
         this.ignoreList = new HashSet<>(AntlrParser.getIgnoreList(parser));
     }
 
@@ -47,39 +47,39 @@ public class AntlrNodeAttrReplacer extends PreorderJmmVisitor<Void, Void> {
                 continue;
             }
 
-            var jmmNode = antlrToJmm.get(value);
+            var attrNode = antlrToAny.get(value);
 
-            if (jmmNode == null) {
+            if (attrNode == null) {
                 System.out.println("Could not find JmmNode for ANTLR node " + value);
                 continue;
             }
 
-            jmmNode = processJmmNode(jmmNode);
+            attrNode = processAnyNode(attrNode);
 
-            node.putObject(attr, jmmNode);
+            node.putObject(attr, attrNode);
 
         }
 
         return null;
     }
 
-    private AnyNode processJmmNode(AnyNode jmmNode) {
+    private AnyNode processAnyNode(AnyNode node) {
         // If node is in ignore list, use parent instead
-        while (ignoreList.contains(jmmNode.getKind())) {
+        while (ignoreList.contains(node.getKind())) {
 
-            if (jmmNode.getNumChildren() != 1) {
+            if (node.getNumChildren() != 1) {
                 System.out.println(
-                        "Using as attribute, node in ignore list of kind '" + jmmNode.getKind() + "' which has '"
-                                + jmmNode.getNumChildren() + "' children instead of 1, no changes made.");
-                return jmmNode;
+                        "Using as attribute, node in ignore list of kind '" + node.getKind() + "' which has '"
+                                + node.getNumChildren() + "' children instead of 1, no changes made.");
+                return node;
             }
 
-            var newJmmNode = jmmNode.getChild(0);
+            var newNode = node.getChild(0);
 
-            jmmNode = newJmmNode;
+            node = newNode;
         }
 
-        return jmmNode;
+        return node;
     }
 
 }

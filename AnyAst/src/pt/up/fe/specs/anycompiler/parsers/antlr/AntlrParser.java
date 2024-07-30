@@ -71,7 +71,7 @@ public class AntlrParser implements AnyParser {
 
                 System.out.println(parser);
 
-                var root = AntlrToJmmNodeConverter.convert(node, parser);
+                var root = AntlrToAnyNodeConverter.convert(node, parser);
                 List<String> ignoreList = AntlrParser.getIgnoreList(parser);
                 if (!ignoreList.isEmpty()) {
                     clean(root, ignoreList);
@@ -90,37 +90,10 @@ public class AntlrParser implements AnyParser {
     }
 
     private void clean(AnyNode root, List<String> ignoreList) {
-        var cleanup = new JmmNodeCleanup(ignoreList);
+        var cleanup = new NodeCleanup(ignoreList);
         cleanup.visit(root);
     }
 
-    /*
-    public static String parse(String code, String lexerQualifiedName, String parserQualifiedName, String parserRule) {
-        // Instantiate JmmParser
-        //SimpleParser parser = new SimpleParser();
-        JmmParser parser = new AntlrParser(parserRule);
-
-        // Parse stage
-        JmmParserResult parserResult = parser.parse(srlCode, Map.of());
-
-        var errorReport = parserResult.getReports().stream()
-                .filter(r -> r.getType() == ReportType.ERROR)
-                .findFirst()
-                .orElse(null);
-
-        if (errorReport != null) {
-            if (errorReport.getException().isPresent()) {
-                System.out.println("Parsing error:" + errorReport.getException().get());
-                return "null";
-            } else {
-                throw new RuntimeException("Found at least one error report: " + errorReport);
-            }
-        }
-
-        var jmmNodeToJson = new JmmNodeToJson();
-        return jmmNodeToJson.toJson(parserResult.getRootNode());
-    }
-*/
 
     public static List<String> getIgnoreList(Parser parser) {
         try {

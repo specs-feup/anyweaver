@@ -25,23 +25,23 @@ import pt.up.fe.specs.util.SpecsCheck;
  * @author JBispo
  *
  */
-public abstract class PostorderJmmVisitor<D, R> extends AllNodesJmmVisitor<D, R> {
+public abstract class PostorderVisitor<D, R> extends AllNodesVisitor<D, R> {
 
     @Override
-    public R visit(AnyNode jmmNode, D data) {
-        SpecsCheck.checkNotNull(jmmNode, () -> "Node should not be null");
+    public R visit(AnyNode node, D data) {
+        SpecsCheck.checkNotNull(node, () -> "Node should not be null");
 
-        var visit = getVisit(jmmNode);
+        var visit = getVisit(node);
 
         List<R> childrenResults = new ArrayList<>();
 
         // Postorder: 1st visit each children
-        for (var child : jmmNode.getChildren()) {
+        for (var child : node.getChildren()) {
             childrenResults.add(visit(child, data));
         }
 
         // Postorder: then, visit the node
-        var nodeResult = visit.apply(jmmNode, data);
+        var nodeResult = visit.apply(node, data);
 
         var reduceFunction = getReduce();
 

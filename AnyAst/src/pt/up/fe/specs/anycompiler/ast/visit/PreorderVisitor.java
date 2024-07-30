@@ -25,20 +25,20 @@ import java.util.List;
  * @author JBispo
  *
  */
-public abstract class PreorderJmmVisitor<D, R> extends AllNodesJmmVisitor<D, R> {
+public abstract class PreorderVisitor<D, R> extends AllNodesVisitor<D, R> {
 
     @Override
-    public R visit(AnyNode jmmNode, D data) {
-        SpecsCheck.checkNotNull(jmmNode, () -> "Node should not be null");
+    public R visit(AnyNode node, D data) {
+        SpecsCheck.checkNotNull(node, () -> "Node should not be null");
 
-        var visit = getVisit(jmmNode);
+        var visit = getVisit(node);
 
         // Preorder: 1st visit the node
-        var nodeResult = visit.apply(jmmNode, data);
+        var nodeResult = visit.apply(node, data);
 
         // Preorder: then, visit each children
         List<R> childrenResults = new ArrayList<>();
-        for (var child : jmmNode.getChildren()) {
+        for (var child : node.getChildren()) {
             childrenResults.add(visit(child, data));
         }
 

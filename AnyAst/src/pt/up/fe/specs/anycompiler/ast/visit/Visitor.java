@@ -24,12 +24,12 @@ import java.util.function.BiFunction;
  * @param <R>
  * @author JBispo
  */
-public interface JmmVisitor<D, R> {
+public interface Visitor<D, R> {
 
-    R visit(AnyNode jmmNode, D data);
+    R visit(AnyNode node, D data);
 
-    default R visit(AnyNode jmmNode) {
-        return visit(jmmNode, null);
+    default R visit(AnyNode node) {
+        return visit(node, null);
     }
 
     /**

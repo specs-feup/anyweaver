@@ -12,12 +12,12 @@ import java.util.function.BiFunction;
  * @param <R>
  * @author Joao Bispo
  */
-public abstract class AJmmVisitor<D, R> implements JmmVisitor<D, R> {
+public abstract class AVisitor<D, R> implements Visitor<D, R> {
 
     private final Map<String, BiFunction<AnyNode, D, R>> visitMap;
     private BiFunction<AnyNode, D, R> defaultVisit;
 
-    public AJmmVisitor() {
+    public AVisitor() {
         this.visitMap = new HashMap<>();
 
         // Initialize visitors
@@ -59,10 +59,10 @@ public abstract class AJmmVisitor<D, R> implements JmmVisitor<D, R> {
     }
 
     @Override
-    public R visit(AnyNode jmmNode, D data) {
-        SpecsCheck.checkNotNull(jmmNode, () -> "Node should not be null");
+    public R visit(AnyNode node, D data) {
+        SpecsCheck.checkNotNull(node, () -> "Node should not be null");
 
-        return getVisit(jmmNode).apply(jmmNode, data);
+        return getVisit(node).apply(node, data);
     }
 
     protected R visitAllChildren(AnyNode node, D data) {

@@ -26,47 +26,47 @@ import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class AntlrToJmmNodeConverter {
+public class AntlrToAnyNodeConverter {
 
-    private final Map<ParseTree, AnyNode> antlrToJmm;
+    private final Map<ParseTree, AnyNode> antlrToAny;
 
-    public AntlrToJmmNodeConverter() {
-        this.antlrToJmm = new HashMap<>();
+    public AntlrToAnyNodeConverter() {
+        this.antlrToAny = new HashMap<>();
     }
 
-    public static AnyNode convert(ParseTree node, Parser parser) {
-        var converter = new AntlrToJmmNodeConverter();
-        var jmmNode = converter.convertPrivate(node, parser);
+    public static AnyNode convert(ParseTree antlrNode, Parser parser) {
+        var converter = new AntlrToAnyNodeConverter();
+        var node = converter.convertPrivate(antlrNode, parser);
 
         // Now that all nodes have been converted, replace attributes that are ANTLR nodes with the equivalent JmmNode
-        converter.replaceAntlrNodeAttrs(jmmNode, parser);
+        converter.replaceAntlrNodeAttrs(node, parser);
 
-        return jmmNode;
+        return node;
     }
 
     private void replaceAntlrNodeAttrs(AnyNode root, Parser parser) {
-        new AntlrNodeAttrReplacer(antlrToJmm, parser).visit(root);
+        new AntlrNodeAttrReplacer(antlrToAny, parser).visit(root);
     }
 
-    private AnyNode convertPrivate(ParseTree node, Parser parser) {
+    private AnyNode convertPrivate(ParseTree antlrNode, Parser parser) {
         // Get kind
-        var kind = getKind(node, parser);
+        var kind = getKind(antlrNode, parser);
 
-        var jmmNode = new GenericAnyNode(kind);
+        var node = new GenericAnyNode(kind);
 
         // Add to map
-        antlrToJmm.put(node, jmmNode);
+        antlrToAny.put(antlrNode, node);
 
         // Get hierarchy
-        addHierarchy(jmmNode, node, parser);
+        addHierarchy(node, antlrNode, parser);
 
         // Get attributes
-        addAttributes(jmmNode, node, parser);
+        addAttributes(node, antlrNode, parser);
 
         // Get children
-        addChildren(jmmNode, node, parser);
+        addChildren(node, antlrNode, parser);
 
-        return jmmNode;
+        return node;
     }
 
     @SuppressWarnings("unchecked")
@@ -92,10 +92,10 @@ public class AntlrToJmmNodeConverter {
         jmmNode.setHierarchy(hierarchy);
     }
 
-    private void addChildren(AnyNode jmmNode, ParseTree node, Parser parser) {
+    private void addChildren(AnyNode anyNode, ParseTree antlrNode, Parser parser) {
 
-        for (int i = 0; i < node.getChildCount(); i++) {
-            var child = node.getChild(i);
+        for (int i = 0; i < antlrNode.getChildCount(); i++) {
+            var child = antlrNode.getChild(i);
 
             // Ignore terminal nodes that do not have a symbolic name
             if (child instanceof TerminalNode) {
@@ -108,34 +108,34 @@ public class AntlrToJmmNodeConverter {
                 */
             }
 
-            jmmNode.addChild(convertPrivate(child, parser));
+            anyNode.addChild(convertPrivate(child, parser));
         }
     }
 
-    private void addAttributes(AnyNode jmmNode, ParseTree node, Parser parser) {
+    private void addAttributes(AnyNode anyNode, ParseTree antlrNode, Parser parser) {
 
         // System.out.println("S NAME: " + parser.getSourceName());
         // Add line and column
-        var startPosition = parser.getTokenStream().get(node.getSourceInterval().a);
-        var endPosition = parser.getTokenStream().get(node.getSourceInterval().b);
+        var startPosition = parser.getTokenStream().get(antlrNode.getSourceInterval().a);
+        var endPosition = parser.getTokenStream().get(antlrNode.getSourceInterval().b);
 
-        jmmNode.putObject(NodePosition.LINE_START.getKey(), Integer.toString(startPosition.getLine()));
-        jmmNode.putObject(NodePosition.COL_START.getKey(), Integer.toString(startPosition.getCharPositionInLine()));
+        anyNode.putObject(NodePosition.LINE_START.getKey(), Integer.toString(startPosition.getLine()));
+        anyNode.putObject(NodePosition.COL_START.getKey(), Integer.toString(startPosition.getCharPositionInLine()));
 
-        jmmNode.putObject(NodePosition.LINE_END.getKey(), Integer.toString(endPosition.getLine()));
-        jmmNode.putObject(NodePosition.COL_END.getKey(), Integer.toString(endPosition.getCharPositionInLine()));
+        anyNode.putObject(NodePosition.LINE_END.getKey(), Integer.toString(endPosition.getLine()));
+        anyNode.putObject(NodePosition.COL_END.getKey(), Integer.toString(endPosition.getCharPositionInLine()));
 
-        if (node instanceof TerminalNode) {
-            var token = ((TerminalNode) node).getSymbol();
-            jmmNode.putObject("value", token.getText());
+        if (antlrNode instanceof TerminalNode) {
+            var token = ((TerminalNode) antlrNode).getSymbol();
+            anyNode.putObject("value", token.getText());
             return;
         }
 
-        SpecsCheck.checkArgument(node instanceof ParserRuleContext,
-                () -> "Expected node '" + node.getClass() + "' to be an instance of " + ParserRuleContext.class);
+        SpecsCheck.checkArgument(antlrNode instanceof ParserRuleContext,
+                () -> "Expected node '" + antlrNode.getClass() + "' to be an instance of " + ParserRuleContext.class);
 
         // Get all classes up to ParserRuleContext
-        var nodeClasses = getNodeClasses(node);
+        var nodeClasses = getNodeClasses(antlrNode);
 
         var fields = nodeClasses.stream()
                 // Get declaring fields of node classes
@@ -151,12 +151,12 @@ public class AntlrToJmmNodeConverter {
             try {
                 // for (var field : node.getClass().getFields()) {
                 if (!field.getType().isAssignableFrom(Token.class)) {
-                    var value = processValue(field.get(node));
-                    jmmNode.putObject(name, value);
+                    var value = processValue(field.get(antlrNode));
+                    anyNode.putObject(name, value);
                     continue;
                 }
 
-                var token = (Token) field.get(node);
+                var token = (Token) field.get(antlrNode);
 
                 // If no token for the given field, skip
                 if (token == null) {
@@ -167,9 +167,9 @@ public class AntlrToJmmNodeConverter {
 
                 SpecsCheck.checkNotNull(literalValue, () -> "Could not extract value from token");
 
-                jmmNode.putObject(name, literalValue);
+                anyNode.putObject(name, literalValue);
             } catch (IllegalAccessException e) {
-                throw new RuntimeException("Could not access field '" + name + "' from node " + node);
+                throw new RuntimeException("Could not access field '" + name + "' from node " + antlrNode);
             }
         }
 

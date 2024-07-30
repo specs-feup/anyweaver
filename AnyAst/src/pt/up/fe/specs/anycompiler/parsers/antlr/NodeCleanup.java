@@ -1,15 +1,15 @@
 package pt.up.fe.specs.anycompiler.parsers.antlr;
 
 import pt.up.fe.specs.anycompiler.ast.AnyNode;
-import pt.up.fe.specs.anycompiler.ast.visit.PostorderJmmVisitor;
+import pt.up.fe.specs.anycompiler.ast.visit.PostorderVisitor;
 
 import java.util.List;
 
 
-public class JmmNodeCleanup extends PostorderJmmVisitor<Void, Void> {
+public class NodeCleanup extends PostorderVisitor<Void, Void> {
     private final List<String> ignoreList;
 
-    public JmmNodeCleanup(List<String> ignoreList) {
+    public NodeCleanup(List<String> ignoreList) {
         this.ignoreList = ignoreList;
     }
 
