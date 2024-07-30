@@ -1,5 +1,5 @@
 plugins {
- 	id 'distribution'
+    id 'distribution'
 }
 
 // Java project
@@ -17,34 +17,37 @@ repositories {
 }
 
 dependencies {
-	testImplementation "junit:junit:4.11"     
-	
-	implementation ':SpecsUtils'
-	implementation ':jOptions'	
-	
-	implementation group: 'com.google.code.gson', name: 'gson', version: '2.4'
+    testImplementation "junit:junit:4.11"
+
+    implementation ':SpecsUtils'
+    implementation ':jOptions'
+
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.4'
+
+    implementation group: 'org.antlr', name: 'antlr4-runtime', version: '4.13.1'
+    //antlr "org.antlr:antlr4:4.5.3"
 }
 
 java {
-	withSourcesJar()
+    withSourcesJar()
 }
 
 
 // Project sources
 sourceSets {
-   main {
-      java {
-         srcDir 'src'
-      }
-   }   
+    main {
+        java {
+            srcDir 'src'
+        }
+    }
 
-   test {
-      java {
-         srcDir 'test'
-      }
-	  
-	  resources {
-		 srcDir 'resources'
-	  }
-   }      
+    test {
+        java {
+            srcDir 'test'
+        }
+
+        resources {
+            srcDir 'resources'
+        }
+    }
 }

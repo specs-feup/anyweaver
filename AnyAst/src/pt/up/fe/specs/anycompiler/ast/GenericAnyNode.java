@@ -1,11 +1,11 @@
 /**
  * Copyright 2024 SPeCS.
- * 
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- * 
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p>
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License. under the License.
@@ -13,21 +13,20 @@
 
 package pt.up.fe.specs.anycompiler.ast;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class GenericAnyNode extends AnyNode {
 
-    private final String kind;
+    private String kind;
 
     private final Map<String, Object> attributes;
+    private Collection<String> hierarchy;
 
     private GenericAnyNode(String kind, Map<String, Object> attributes, Collection<? extends AnyNode> children) {
         super(children);
         this.kind = kind;
         this.attributes = attributes;
+        this.hierarchy = Arrays.asList(kind);
     }
 
     public GenericAnyNode(String kind, Collection<? extends AnyNode> children) {
@@ -36,6 +35,15 @@ public class GenericAnyNode extends AnyNode {
 
     public GenericAnyNode(String kind) {
         this(kind, Collections.emptyList());
+    }
+
+    @Override
+    public Collection<String> getHierarchy() {
+        return hierarchy;
+    }
+
+    public void setHierarchy(Collection<String> hierarchy) {
+        this.hierarchy = hierarchy;
     }
 
     @Override
@@ -48,15 +56,19 @@ public class GenericAnyNode extends AnyNode {
         return kind;
     }
 
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
+
     @Override
-    public Object getValue(String attribute) {
+    public Object getObject(String attribute) {
         // System.out.println("GENERIC: " + attributes);
         // System.out.println("GET: " + attributes.get(attribute));
         return attributes.get(attribute);
     }
 
     @Override
-    public Object putValue(String attribute, Object value) {
+    public Object putObject(String attribute, Object value) {
         return attributes.put(attribute, value);
     }
 
