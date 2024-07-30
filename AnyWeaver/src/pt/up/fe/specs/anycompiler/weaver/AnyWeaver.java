@@ -1,34 +1,13 @@
 package pt.up.fe.specs.anycompiler.weaver;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import javax.swing.JFileChooser;
-
-import org.lara.interpreter.joptions.config.interpreter.LaraIKeyFactory;
-import org.lara.interpreter.joptions.keys.FileList;
 import org.lara.interpreter.weaver.ast.AstMethods;
 import org.lara.interpreter.weaver.interf.AGear;
 import org.lara.interpreter.weaver.interf.JoinPoint;
-import org.lara.interpreter.weaver.options.OptionArguments;
 import org.lara.interpreter.weaver.options.WeaverOption;
-import org.lara.interpreter.weaver.options.WeaverOptionBuilder;
 import org.lara.interpreter.weaver.utils.LaraResourceProvider;
 import org.lara.language.specification.LanguageSpecification;
 import org.lara.language.specification.dsl.LanguageSpecificationV2;
-import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Interfaces.DataStore;
-
 import pt.up.fe.specs.anycompiler.ast.AnyNode;
 import pt.up.fe.specs.anycompiler.ast.GenericAnyNode;
 import pt.up.fe.specs.anycompiler.parsers.JsonParser;
@@ -37,6 +16,9 @@ import pt.up.fe.specs.util.SpecsIo;
 import pt.up.fe.specs.util.SpecsLogs;
 import pt.up.fe.specs.util.providers.ResourceProvider;
 
+import java.io.File;
+import java.util.*;
+
 /**
  * Weaver Implementation for SmaliWeaver<br>
  * Since the generated abstract classes are always overwritten, their implementation should be done by extending those
@@ -44,7 +26,7 @@ import pt.up.fe.specs.util.providers.ResourceProvider;
  * The abstract class {@link pt.up.fe.specs.anycompiler.weaver.abstracts.AAnyWeaverJoinPoint} can be used to add
  * user-defined methods and fields which the user intends to add for all join points and are not intended to be used in
  * LARA aspects.
- * 
+ *
  * @author Lara Weaver Generator
  */
 public class AnyWeaver extends AAnyWeaver {
@@ -60,8 +42,8 @@ public class AnyWeaver extends AAnyWeaver {
     // WeaverEngine.class);
 
     /**
-     * @deprecated
      * @return
+     * @deprecated
      */
     @Deprecated
     public static LanguageSpecification buildLanguageSpecificationOld() {
@@ -81,7 +63,7 @@ public class AnyWeaver extends AAnyWeaver {
 
     /**
      * Warns the lara interpreter if the weaver accepts a folder as the application or only one file at a time.
-     * 
+     *
      * @return true if the weaver is able to work with several files, false if only works with one file
      */
     @Override
@@ -92,13 +74,10 @@ public class AnyWeaver extends AAnyWeaver {
 
     /**
      * Set a file/folder in the weaver if it is valid file/folder type for the weaver.
-     * 
-     * @param sources
-     *            the file with the source code
-     * @param outputDir
-     *            output directory for the generated file(s)
-     * @param args
-     *            arguments to start the weaver
+     *
+     * @param sources   the file with the source code
+     * @param outputDir output directory for the generated file(s)
+     * @param args      arguments to start the weaver
      * @return true if the file type is valid
      */
     @Override
@@ -133,7 +112,6 @@ public class AnyWeaver extends AAnyWeaver {
     }
 
 
-
     private LanguageSpecificationV2 buildLangSpec() {
 
         // TODO Auto-generated method stub
@@ -164,7 +142,7 @@ public class AnyWeaver extends AAnyWeaver {
 
     /**
      * Return a JoinPoint instance of the language root, i.e., an instance of APlaceholder
-     * 
+     *
      * @return an instance of the join point root/program
      */
     @Override
@@ -176,7 +154,7 @@ public class AnyWeaver extends AAnyWeaver {
 
     /**
      * Closes the weaver to the specified output directory location, if the weaver generates new file(s)
-     * 
+     *
      * @return if close was successful
      */
     @Override
@@ -187,7 +165,7 @@ public class AnyWeaver extends AAnyWeaver {
 
     /**
      * Returns a list of Gears associated to this weaver engine
-     * 
+     *
      * @return a list of implementations of {@link AGear} or null if no gears are available
      */
     @Override
