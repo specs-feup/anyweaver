@@ -31,15 +31,11 @@ import java.util.*;
  */
 public class AnyWeaver extends AAnyWeaver {
 
+    private static final String WEAVER_NAME = "AnyWeaver";
+    private static final String WEAVER_API_NAME = "anyweaver-js";
+
     private DataStore args;
     private AnyNode root;
-    //private URLClassLoader classLoader;
-
-    /**
-     * Thread-scope WeaverEngine
-     */
-    // private static final SpecsThreadLocal<WeaverEngine> THREAD_LOCAL_WEAVER = new SpecsThreadLocal<>(
-    // WeaverEngine.class);
 
     /**
      * @return
@@ -52,13 +48,8 @@ public class AnyWeaver extends AAnyWeaver {
                 () -> "anycompiler/weaverspecs/actionModel.xml", true);
     }
 
-    // private final SmaliParser parser;
-    // private SmaliNode root;
-
     public AnyWeaver() {
-        // this.parser = new SmaliParser();
         root = null;
-        //classLoader = null;
     }
 
     /**
@@ -83,9 +74,6 @@ public class AnyWeaver extends AAnyWeaver {
     @Override
     public boolean begin(List<File> sources, File outputDir, DataStore args) {
         this.args = args;
-        // System.out.println("SOURCES: " + sources);
-        // System.out.println("JAR PATHS: " + args.get(JAR_FILES).getFiles());
-
 
         // For now, using json parser
 
@@ -100,26 +88,16 @@ public class AnyWeaver extends AAnyWeaver {
 
         root = new GenericAnyNode("app", fileNodes);
 
-        // // sources can be a smali file, a folder or APK. Only supporting smali files for now
-        //
-        // root = parser.parse(sources.get(0)).orElseThrow();
-        //
-        // System.out.println("SOURCES: " + sources);
-        // System.out.println("ARGS: " + args);
-        // // Initialize weaver with the input file/folder
-        // // throw new UnsupportedOperationException("Method begin for SmaliWeaver is not yet implemented");
         return true;
     }
 
 
     private LanguageSpecificationV2 buildLangSpec() {
-
         // TODO Auto-generated method stub
         return null;
     }
 
     private List<File> getSourceFiles(List<File> sources) {
-
         var sourceFiles = new ArrayList<File>();
 
         for (var source : sources) {
@@ -147,8 +125,6 @@ public class AnyWeaver extends AAnyWeaver {
      */
     @Override
     public JoinPoint select() {
-        // return new <APlaceholder implementation>;
-        // throw new UnsupportedOperationException("Method select for SmaliWeaver is not yet implemented");
         return null;
     }
 
@@ -192,7 +168,12 @@ public class AnyWeaver extends AAnyWeaver {
 
     @Override
     public String getName() {
-        return "AnyWeaver";
+        return WEAVER_NAME;
+    }
+
+    @Override
+    public String getWeaverApiName() {
+        return WEAVER_API_NAME;
     }
 
     @Override

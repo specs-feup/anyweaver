@@ -5,22 +5,23 @@
 import { wrapJoinPoint } from "lara-js/api/LaraJoinPoint.js";
 import JavaTypes from "lara-js/api/lara/util/JavaTypes.js";
 import Weaver from "lara-js/api/weaver/Weaver.js";
+//import type { Joinpoint } from "../Joinpoints.js";
 export default class Parsers {
-    static json(code, options = { "kindAttr": "type", "childrenAttr": "children", "isFlat": true }) {
-        const kindAttr = options["kindAttr"] ?? "type";
-        const childrenAttr = options["childrenAttr"] ?? "children";
-        const isFlat = options["isFlat"] ?? true;
+    static json(code, options = { kindAttr: "type", childrenAttr: "children", isFlat: true }) {
+        const kindAttr = options.kindAttr ?? "type";
+        const childrenAttr = options.childrenAttr ?? "children";
+        const isFlat = options.isFlat ?? true;
         const JsonParser = JavaTypes.getType("pt.up.fe.specs.anycompiler.parsers.JsonParser");
         const parser = new JsonParser(kindAttr, childrenAttr, isFlat);
         const anyNode = parser.parse(code);
         const AnyJoinpoints = JavaTypes.getType("pt.up.fe.specs.anycompiler.weaver.AnyJoinpoints");
-        return wrapJoinPoint(AnyJoinpoints.create(anyNode));
+        return wrapJoinPoint(AnyJoinpoints.create(anyNode)); // as Joinpoint;
     }
     static antlr(code, rule, grammarName, grammarPackage) {
         // Build lexer qualifier name
-        const lexerQualifierName = grammarPackage + "." + grammarName + "Lexer";
+        const lexerQualifierName = `${grammarPackage}.${grammarName}Lexer`;
         // Build parser qualifier name
-        const parserQualifierName = grammarPackage + "." + grammarName + "Parser";
+        const parserQualifierName = `${grammarPackage}.${grammarName}Parser`;
         // Get custom classloader
         const weaver = Weaver.getWeaverEngine();
         const weaverState = weaver.getLaraWeaverState();
@@ -36,7 +37,7 @@ export default class Parsers {
         const anyRoot = antlrParser.parse(code);
         // Create Java and JS join point
         const AnyJoinpoints = JavaTypes.getType("pt.up.fe.specs.anycompiler.weaver.AnyJoinpoints");
-        return wrapJoinPoint(AnyJoinpoints.create(anyRoot));
+        return AnyJoinpoints.create(anyRoot); // as Joinpoint;
     }
 }
 //# sourceMappingURL=Parsers.js.map
