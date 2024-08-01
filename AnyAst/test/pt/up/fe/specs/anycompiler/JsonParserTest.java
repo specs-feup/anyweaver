@@ -13,17 +13,21 @@
 
 package pt.up.fe.specs.anycompiler;
 
+
+import org.junit.Assert;
 import org.junit.Test;
 import pt.up.fe.specs.anycompiler.parsers.JsonParser;
 import pt.up.fe.specs.util.SpecsIo;
+import pt.up.fe.specs.util.SpecsStrings;
 
 public class JsonParserTest {
 
     @Test
     public void testSrlAst() {
-        var code = SpecsIo.getResource(() -> "pt/up/fe/specs/anycompiler/srl-ast.json");
+        var code = SpecsIo.getResource("pt/up/fe/specs/anycompiler/srl-ast.json");
         var parser = new JsonParser("type", "children", true);
         var ast = parser.parse(code);
-        System.out.println("AST:" + ast.toTree());
+
+        Assert.assertTrue(SpecsStrings.check(SpecsIo.getResource("pt/up/fe/specs/anycompiler/srl-ast.json.txt"), ast.toTree()));
     }
 }

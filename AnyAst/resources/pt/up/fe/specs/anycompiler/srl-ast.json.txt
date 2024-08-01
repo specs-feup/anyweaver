@@ -1,0 +1,6 @@
+GenericAnyNode: STREAM::store: {args=[outputStream], id=node::1, type=STREAM::store}
+  GenericAnyNode: OP::+: {id=node::2, type=OP::+}
+    GenericAnyNode: STREAM::load: {args=[S2], id=node::3, type=STREAM::load}
+    GenericAnyNode: OP::*: {id=node::4, type=OP::*}
+      GenericAnyNode: STREAM::load: {args=[S1], id=node::5, type=STREAM::load}
+      GenericAnyNode: INPUT::VALUE: {args=[mult_factor], id=node::6, type=INPUT::VALUE}
