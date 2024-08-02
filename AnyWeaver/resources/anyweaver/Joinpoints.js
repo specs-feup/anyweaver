@@ -23,6 +23,10 @@ export class Joinpoint extends LaraJoinPoint {
      */
     get descendants() { return wrapJoinPoint(this._javaObject.getDescendants()); }
     /**
+     * The parent of this node, or undefined if it is the root node
+     */
+    get parent() { return wrapJoinPoint(this._javaObject.getParent()); }
+    /**
      * Gets an attribute with the given name.
      */
     getValue(name) { return wrapJoinPoint(this._javaObject.getValue(unwrapJoinPoint(name))); }
@@ -46,6 +50,10 @@ export class Joinpoint extends LaraJoinPoint {
      * Overload which accepts a list of strings
      */
     replaceWithStrings(node) { return wrapJoinPoint(this._javaObject.replaceWithStrings(unwrapJoinPoint(node))); }
+    /**
+     * Sets the value of an attribute, returns the previous set value
+     */
+    setValue(name, value) { return wrapJoinPoint(this._javaObject.setValue(unwrapJoinPoint(name), unwrapJoinPoint(value))); }
 }
 /**
  * Any node

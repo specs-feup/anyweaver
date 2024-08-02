@@ -57,17 +57,17 @@ sourceSets {
         }
     }
 
-    /*
-    test {
-       java {
-          srcDir 'test'
-       }
 
-       resources {
-         srcDir 'resources'
-       }
+    test {
+        java {
+            srcDir 'test'
+        }
+
+        resources {
+            srcDir 'test-resources'
+        }
     }
-    */
+
 
 }
 

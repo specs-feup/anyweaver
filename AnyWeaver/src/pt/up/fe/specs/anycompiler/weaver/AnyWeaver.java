@@ -1,34 +1,13 @@
 package pt.up.fe.specs.anycompiler.weaver;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import javax.swing.JFileChooser;
-
-import org.lara.interpreter.joptions.config.interpreter.LaraIKeyFactory;
-import org.lara.interpreter.joptions.keys.FileList;
 import org.lara.interpreter.weaver.ast.AstMethods;
 import org.lara.interpreter.weaver.interf.AGear;
 import org.lara.interpreter.weaver.interf.JoinPoint;
-import org.lara.interpreter.weaver.options.OptionArguments;
 import org.lara.interpreter.weaver.options.WeaverOption;
-import org.lara.interpreter.weaver.options.WeaverOptionBuilder;
 import org.lara.interpreter.weaver.utils.LaraResourceProvider;
 import org.lara.language.specification.LanguageSpecification;
 import org.lara.language.specification.dsl.LanguageSpecificationV2;
-import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Interfaces.DataStore;
-
 import pt.up.fe.specs.anycompiler.ast.AnyNode;
 import pt.up.fe.specs.anycompiler.ast.GenericAnyNode;
 import pt.up.fe.specs.anycompiler.parsers.JsonParser;
@@ -37,6 +16,9 @@ import pt.up.fe.specs.util.SpecsIo;
 import pt.up.fe.specs.util.SpecsLogs;
 import pt.up.fe.specs.util.providers.ResourceProvider;
 
+import java.io.File;
+import java.util.*;
+
 /**
  * Weaver Implementation for SmaliWeaver<br>
  * Since the generated abstract classes are always overwritten, their implementation should be done by extending those
@@ -44,24 +26,20 @@ import pt.up.fe.specs.util.providers.ResourceProvider;
  * The abstract class {@link pt.up.fe.specs.anycompiler.weaver.abstracts.AAnyWeaverJoinPoint} can be used to add
  * user-defined methods and fields which the user intends to add for all join points and are not intended to be used in
  * LARA aspects.
- * 
+ *
  * @author Lara Weaver Generator
  */
 public class AnyWeaver extends AAnyWeaver {
 
+    private static final String WEAVER_NAME = "AnyWeaver";
+    private static final String WEAVER_API_NAME = "anyweaver-js";
+
     private DataStore args;
     private AnyNode root;
-    //private URLClassLoader classLoader;
 
     /**
-     * Thread-scope WeaverEngine
-     */
-    // private static final SpecsThreadLocal<WeaverEngine> THREAD_LOCAL_WEAVER = new SpecsThreadLocal<>(
-    // WeaverEngine.class);
-
-    /**
-     * @deprecated
      * @return
+     * @deprecated
      */
     @Deprecated
     public static LanguageSpecification buildLanguageSpecificationOld() {
@@ -70,18 +48,13 @@ public class AnyWeaver extends AAnyWeaver {
                 () -> "anycompiler/weaverspecs/actionModel.xml", true);
     }
 
-    // private final SmaliParser parser;
-    // private SmaliNode root;
-
     public AnyWeaver() {
-        // this.parser = new SmaliParser();
         root = null;
-        //classLoader = null;
     }
 
     /**
      * Warns the lara interpreter if the weaver accepts a folder as the application or only one file at a time.
-     * 
+     *
      * @return true if the weaver is able to work with several files, false if only works with one file
      */
     @Override
@@ -92,21 +65,15 @@ public class AnyWeaver extends AAnyWeaver {
 
     /**
      * Set a file/folder in the weaver if it is valid file/folder type for the weaver.
-     * 
-     * @param sources
-     *            the file with the source code
-     * @param outputDir
-     *            output directory for the generated file(s)
-     * @param args
-     *            arguments to start the weaver
+     *
+     * @param sources   the file with the source code
+     * @param outputDir output directory for the generated file(s)
+     * @param args      arguments to start the weaver
      * @return true if the file type is valid
      */
     @Override
     public boolean begin(List<File> sources, File outputDir, DataStore args) {
         this.args = args;
-        // System.out.println("SOURCES: " + sources);
-        // System.out.println("JAR PATHS: " + args.get(JAR_FILES).getFiles());
-
 
         // For now, using json parser
 
@@ -121,27 +88,16 @@ public class AnyWeaver extends AAnyWeaver {
 
         root = new GenericAnyNode("app", fileNodes);
 
-        // // sources can be a smali file, a folder or APK. Only supporting smali files for now
-        //
-        // root = parser.parse(sources.get(0)).orElseThrow();
-        //
-        // System.out.println("SOURCES: " + sources);
-        // System.out.println("ARGS: " + args);
-        // // Initialize weaver with the input file/folder
-        // // throw new UnsupportedOperationException("Method begin for SmaliWeaver is not yet implemented");
         return true;
     }
 
 
-
     private LanguageSpecificationV2 buildLangSpec() {
-
         // TODO Auto-generated method stub
         return null;
     }
 
     private List<File> getSourceFiles(List<File> sources) {
-
         var sourceFiles = new ArrayList<File>();
 
         for (var source : sources) {
@@ -164,19 +120,17 @@ public class AnyWeaver extends AAnyWeaver {
 
     /**
      * Return a JoinPoint instance of the language root, i.e., an instance of APlaceholder
-     * 
+     *
      * @return an instance of the join point root/program
      */
     @Override
     public JoinPoint select() {
-        // return new <APlaceholder implementation>;
-        // throw new UnsupportedOperationException("Method select for SmaliWeaver is not yet implemented");
         return null;
     }
 
     /**
      * Closes the weaver to the specified output directory location, if the weaver generates new file(s)
-     * 
+     *
      * @return if close was successful
      */
     @Override
@@ -187,7 +141,7 @@ public class AnyWeaver extends AAnyWeaver {
 
     /**
      * Returns a list of Gears associated to this weaver engine
-     * 
+     *
      * @return a list of implementations of {@link AGear} or null if no gears are available
      */
     @Override
@@ -214,7 +168,12 @@ public class AnyWeaver extends AAnyWeaver {
 
     @Override
     public String getName() {
-        return "AnyWeaver";
+        return WEAVER_NAME;
+    }
+
+    @Override
+    public String getWeaverApiName() {
+        return WEAVER_API_NAME;
     }
 
     @Override

@@ -87,6 +87,10 @@ export class Joinpoint extends LaraJoinPoint {
    * Overload which accepts a list of strings
    */
   replaceWithStrings(node: string[]): Joinpoint { return wrapJoinPoint(this._javaObject.replaceWithStrings(unwrapJoinPoint(node))); }
+  /**
+   * Sets the value of an attribute, returns the previous set value
+   */
+  setValue(name: string, value: object): object { return wrapJoinPoint(this._javaObject.setValue(unwrapJoinPoint(name), unwrapJoinPoint(value))); }
 }
 
   /**

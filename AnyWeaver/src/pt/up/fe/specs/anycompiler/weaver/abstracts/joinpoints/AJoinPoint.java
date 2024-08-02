@@ -69,6 +69,7 @@ public abstract class AJoinPoint extends JoinPoint {
         actions.add("insertAfter(AJoinPoint node)");
         actions.add("insertAfter(String code)");
         actions.add("detach()");
+        actions.add("setValue(String name, Object value)");
     }
 
     /**
@@ -309,6 +310,35 @@ public abstract class AJoinPoint extends JoinPoint {
         	return result;
         } catch(Exception e) {
         	throw new ActionException(get_class(), "detach", e);
+        }
+    }
+
+    /**
+     * Sets the value of an attribute, returns the previous set value
+     * @param name 
+     * @param value 
+     */
+    public Object setValueImpl(String name, Object value) {
+        throw new UnsupportedOperationException(get_class()+": Action setValue not implemented ");
+    }
+
+    /**
+     * Sets the value of an attribute, returns the previous set value
+     * @param name 
+     * @param value 
+     */
+    public final Object setValue(String name, Object value) {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAction(Stage.BEGIN, "setValue", this, Optional.empty(), name, value);
+        	}
+        	Object result = this.setValueImpl(name, value);
+        	if(hasListeners()) {
+        		eventTrigger().triggerAction(Stage.END, "setValue", this, Optional.ofNullable(result), name, value);
+        	}
+        	return result;
+        } catch(Exception e) {
+        	throw new ActionException(get_class(), "setValue", e);
         }
     }
 
