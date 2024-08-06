@@ -55,7 +55,7 @@ jobs:
     # Setting up gradle multi-project would be helpful
     - name: Build and Test AnyWeaver
       working-directory: workspace/anyweaver/AnyWeaver
-      run: ./gradlew build test
+      run: gradle build test
 
     - name: Publish Test Report
       uses: mikepenz/action-junit-report@v4
