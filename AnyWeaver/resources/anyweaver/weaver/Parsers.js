@@ -2,9 +2,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { wrapJoinPoint } from "lara-js/api/LaraJoinPoint.js";
-import JavaTypes from "lara-js/api/lara/util/JavaTypes.js";
-import Weaver from "lara-js/api/weaver/Weaver.js";
+import { wrapJoinPoint } from "@specs-feup/lara/api/LaraJoinPoint.js";
+import JavaTypes from "@specs-feup/lara/api/lara/util/JavaTypes.js";
+import Weaver from "@specs-feup/lara/api/weaver/Weaver.js";
 //import type { Joinpoint } from "../Joinpoints.js";
 export default class Parsers {
     static json(code, options = { kindAttr: "type", childrenAttr: "children", isFlat: true }) {

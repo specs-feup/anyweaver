@@ -16,7 +16,7 @@ import {
   registerJoinpointMapper,
   wrapJoinPoint,
   unwrapJoinPoint,
-} from "lara-js/api/LaraJoinPoint.js";
+} from "@specs-feup/lara/api/LaraJoinPoint.js";
 
 export class Joinpoint extends LaraJoinPoint {
   /**

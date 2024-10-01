@@ -31,7 +31,7 @@
         "test:cov": "npm run test -- --coverage",
         "test:watch": "npm run test -- --watch",
         "java-dist": "npx lara-java-dist --jsSourceFolder api --jsDestinationFolder ../AnyWeaver/resources/anyweaver/ --javaClassname AnyWeaverApiJsResource --javaPackageName pt.up.fe.specs.anycompiler.weaver --javaDestinationFolder ../AnyWeaver/src/pt/up/fe/specs/anycompiler/weaver/ --javaResourceNamespace anyweaver",
-        "build-interfaces": "npx lara-build-interfaces --input ../AnyWeaver/src/pt/up/fe/specs/anycompiler/weaver/AnyWeaver.json --lara lara-js/LaraJoinPointSpecification.json --output src-api/Joinpoints.ts"
+        "build-interfaces": "npx lara-build-interfaces --input ../AnyWeaver/src/pt/up/fe/specs/anycompiler/weaver/AnyWeaver.json --lara @specs-feup/lara/LaraJoinPointSpecification.json --output src-api/Joinpoints.ts"
     },
     "repository": {
         "type": "git",
@@ -50,7 +50,7 @@
     },
     "homepage": "https://github.com/specs-feup/anyweaver#readme",
     "dependencies": {
-        "lara-js": "^0.0.1"
+        "@specs-feup/lara": "^3.0.1"
     },
     "devDependencies": {
         "@jest/globals": "^29.7.0",

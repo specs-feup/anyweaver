@@ -1,4 +1,4 @@
-import type WeaverConfiguration from "lara-js/code/WeaverConfiguration.js";
+import type WeaverConfiguration from "@specs-feup/lara/code/WeaverConfiguration.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
