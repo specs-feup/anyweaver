@@ -107,7 +107,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: java-binaries
-          path: anyweaver/AnyWeaver/build/install/AlpakkaWeaver
+          path: anyweaver/AnyWeaver/build/install/AnyWeaver
 
 
   build-js:
@@ -156,7 +156,7 @@ jobs:
           cd lara-framework/Lara-JS
           npm run build
 
-      - name: Build Alpakka-JS
+      - name: Build AnyWeaver-JS
         run: |
           cd anyweaver/AnyWeaver-JS
           npm run build
