@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 /**
  * Abstract Weaver Implementation for AnyWeaver<br>
-Since the generated abstract classes are always overwritten, their implementation should be done by extending those abstract classes with user-defined classes.<br>
-The abstract class {@link pt.up.fe.specs.anycompiler.weaver.abstracts.AAnyWeaverJoinPoint} contains attributes and actions common to all join points.
+ * Since the generated abstract classes are always overwritten, their implementation should be done by extending those abstract classes with user-defined classes.<br>
+ * The abstract class {@link pt.up.fe.specs.anycompiler.weaver.abstracts.AAnyWeaverJoinPoint} contains attributes and actions common to all join points.
  * The implementation of the abstract methods is mandatory!
  * @author Lara C.
  */
@@ -21,7 +21,7 @@ public abstract class AAnyWeaver extends LaraWeaverEngine {
      */
     @Override
     public final List<String> getActions() {
-        String[] weaverActions= {"replaceWith", "replaceWith", "replaceWith", "replaceWithStrings", "insertBefore", "insertBefore", "insertAfter", "insertAfter", "detach", "setValue", "addAst"};
+        String[] weaverActions= {"detach", "insertAfter", "insertAfter", "insertBefore", "insertBefore", "replaceWith", "replaceWith", "replaceWith", "replaceWithStrings", "setValue", "addAst"};
         return Arrays.asList(weaverActions);
     }
 
