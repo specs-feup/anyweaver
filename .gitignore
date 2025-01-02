@@ -80,3 +80,6 @@ stderr.txt
 
 # experiments
 /*Experiment/
+
+
+**/node_modules/*
