@@ -5,8 +5,7 @@ import org.lara.interpreter.weaver.interf.AGear;
 import org.lara.interpreter.weaver.interf.JoinPoint;
 import org.lara.interpreter.weaver.options.WeaverOption;
 import org.lara.interpreter.weaver.utils.LaraResourceProvider;
-import org.lara.language.specification.LanguageSpecification;
-import org.lara.language.specification.dsl.LanguageSpecificationV2;
+import org.lara.language.specification.dsl.LanguageSpecification;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import pt.up.fe.specs.anycompiler.ast.AnyNode;
 import pt.up.fe.specs.anycompiler.ast.GenericAnyNode;
@@ -37,15 +36,10 @@ public class AnyWeaver extends AAnyWeaver {
     private DataStore args;
     private AnyNode root;
 
-    /**
-     * @return
-     * @deprecated
-     */
-    @Deprecated
-    public static LanguageSpecification buildLanguageSpecificationOld() {
+    public static LanguageSpecification buildLanguageSpecification() {
         return LanguageSpecification.newInstance(() -> "anycompiler/weaverspecs/joinPointModel.xml",
                 () -> "anycompiler/weaverspecs/artifacts.xml",
-                () -> "anycompiler/weaverspecs/actionModel.xml", true);
+                () -> "anycompiler/weaverspecs/actionModel.xml");
     }
 
     public AnyWeaver() {
@@ -92,7 +86,7 @@ public class AnyWeaver extends AAnyWeaver {
     }
 
 
-    private LanguageSpecificationV2 buildLangSpec() {
+    private LanguageSpecification buildLangSpec() {
         // TODO Auto-generated method stub
         return null;
     }
@@ -162,8 +156,8 @@ public class AnyWeaver extends AAnyWeaver {
     }
 
     @Override
-    public LanguageSpecification getLanguageSpecification() {
-        return buildLanguageSpecificationOld();
+    protected LanguageSpecification buildLangSpecs() {
+        return buildLanguageSpecification();
     }
 
     @Override

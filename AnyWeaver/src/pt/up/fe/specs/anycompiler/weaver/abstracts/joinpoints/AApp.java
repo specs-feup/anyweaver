@@ -30,7 +30,7 @@ public abstract class AApp extends AAnyWeaverJoinPoint {
      * Adds an AST to the current program, returns the inserted join point
      * @param ast 
      */
-    public final AJoinPoint addAst(AJoinPoint ast) {
+    public final Object addAst(AJoinPoint ast) {
         try {
         	if(hasListeners()) {
         		eventTrigger().triggerAction(Stage.BEGIN, "addAst", this, Optional.empty(), ast);
@@ -39,7 +39,7 @@ public abstract class AApp extends AAnyWeaverJoinPoint {
         	if(hasListeners()) {
         		eventTrigger().triggerAction(Stage.END, "addAst", this, Optional.ofNullable(result), ast);
         	}
-        	return result;
+        	return result!=null?result:getUndefinedValue();
         } catch(Exception e) {
         	throw new ActionException(get_class(), "addAst", e);
         }
@@ -106,11 +106,11 @@ public abstract class AApp extends AAnyWeaverJoinPoint {
      * 
      */
     protected enum AppAttributes {
-        GETVALUE("getValue"),
-        PARENT("parent"),
         AST("ast"),
         CHILDREN("children"),
-        DESCENDANTS("descendants");
+        DESCENDANTS("descendants"),
+        GETVALUE("getValue"),
+        PARENT("parent");
         private String name;
 
         /**
