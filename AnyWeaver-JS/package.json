@@ -1,5 +1,5 @@
 {
-  "name": "anyweaver-js",
+  "name": "@specs-feup/anyweaver",
   "version": "0.0.1",
   "description": "A generic source-to-source compiler written in Typescript",
   "type": "module",
