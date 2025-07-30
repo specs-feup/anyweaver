@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.lara.interpreter.exception.ActionException;
 import pt.up.fe.specs.anycompiler.weaver.abstracts.AAnyWeaverJoinPoint;
 import java.util.List;
-import org.lara.interpreter.weaver.interf.JoinPoint;
 import java.util.stream.Collectors;
 import java.util.Arrays;
 
@@ -43,55 +42,6 @@ public abstract class AApp extends AAnyWeaverJoinPoint {
         } catch(Exception e) {
         	throw new ActionException(get_class(), "addAst", e);
         }
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public final List<? extends JoinPoint> select(String selectName) {
-        List<? extends JoinPoint> joinPointList;
-        switch(selectName) {
-        	default:
-        		joinPointList = super.select(selectName);
-        		break;
-        }
-        return joinPointList;
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public final void defImpl(String attribute, Object value) {
-        switch(attribute){
-        default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
-        }
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithAttributes(List<String> attributes) {
-        super.fillWithAttributes(attributes);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithSelects(List<String> selects) {
-        super.fillWithSelects(selects);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithActions(List<String> actions) {
-        super.fillWithActions(actions);
-        actions.add("joinpoint addAst(joinpoint)");
     }
 
     /**

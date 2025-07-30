@@ -2,13 +2,11 @@ package pt.up.fe.specs.anycompiler.weaver.abstracts.joinpoints;
 
 import org.lara.interpreter.weaver.interf.JoinPoint;
 import pt.up.fe.specs.anycompiler.ast.AnyNode;
-import java.util.List;
 import org.lara.interpreter.weaver.interf.events.Stage;
 import java.util.Optional;
 import org.lara.interpreter.exception.ActionException;
 import org.lara.interpreter.exception.AttributeException;
 import pt.up.fe.specs.anycompiler.weaver.AnyWeaver;
-import org.lara.interpreter.weaver.interf.SelectOp;
 
 /**
  * Abstract class containing the global attributes and default action exception.
@@ -44,33 +42,6 @@ public abstract class AJoinPoint extends JoinPoint {
      * @return Tree node reference
      */
     public abstract AnyNode getNode();
-
-    /**
-     * 
-     */
-    @Override
-    public void defImpl(String attribute, Object value) {
-        switch(attribute){
-        default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
-        }
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected void fillWithActions(List<String> actions) {
-        actions.add("detach()");
-        actions.add("insertAfter(AJoinPoint node)");
-        actions.add("insertAfter(String code)");
-        actions.add("insertBefore(AJoinPoint node)");
-        actions.add("insertBefore(String node)");
-        actions.add("replaceWith(AJoinPoint node)");
-        actions.add("replaceWith(String node)");
-        actions.add("replaceWith(AJoinPoint[] node)");
-        actions.add("replaceWithStrings(String[] node)");
-        actions.add("setValue(String name, Object value)");
-    }
 
     /**
      * Removes the node associated to this joinpoint from the AST
@@ -343,22 +314,6 @@ public abstract class AJoinPoint extends JoinPoint {
     }
 
     /**
-     * 
-     */
-    @Override
-    protected void fillWithAttributes(List<String> attributes) {
-        // Default attributes
-        super.fillWithAttributes(attributes);
-        
-        //Attributes available for all join points
-        attributes.add("ast");
-        attributes.add("children");
-        attributes.add("descendants");
-        attributes.add("getValue(String name)");
-        attributes.add("parent");
-    }
-
-    /**
      * String representation of the ast.
      */
     public abstract String getAstImpl();
@@ -392,8 +347,7 @@ public abstract class AJoinPoint extends JoinPoint {
      */
     public Object getChildrenImpl() {
         AJoinPoint[] aJoinPointArrayImpl0 = getChildrenArrayImpl();
-        Object nativeArray0 = getWeaverEngine().getScriptEngine().toNativeArray(aJoinPointArrayImpl0);
-        return nativeArray0;
+        return aJoinPointArrayImpl0;
     }
 
     /**
@@ -425,8 +379,7 @@ public abstract class AJoinPoint extends JoinPoint {
      */
     public Object getDescendantsImpl() {
         AJoinPoint[] aJoinPointArrayImpl0 = getDescendantsArrayImpl();
-        Object nativeArray0 = getWeaverEngine().getScriptEngine().toNativeArray(aJoinPointArrayImpl0);
-        return nativeArray0;
+        return aJoinPointArrayImpl0;
     }
 
     /**
@@ -517,9 +470,4 @@ public abstract class AJoinPoint extends JoinPoint {
     public AnyWeaver getWeaverEngine() {
         return AnyWeaver.getAnyWeaver();
     }
-
-    /**
-     * Generic select function, used by the default select implementations.
-     */
-    public abstract <T extends AJoinPoint> List<? extends T> select(Class<T> joinPointClass, SelectOp op);
 }
