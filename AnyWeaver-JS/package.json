@@ -16,7 +16,7 @@
     "tsconfig.json"
   ],
   "bin": {
-    "anyweaver-js": "./code/index.js"
+    "anyweaver": "./code/index.js"
   },
   "scripts": {
     "run": "node ./code/index.js",

@@ -48,19 +48,6 @@ sourceSets {
             srcDir 'resources'
         }
     }
-
-
-    test {
-        java {
-            srcDir 'test'
-        }
-
-        resources {
-            srcDir 'test-resources'
-        }
-    }
-
-
 }
 
 // Weaver Generator
@@ -76,7 +63,6 @@ task weaverGenerator(type: JavaExec) {
             '-p', 'pt.up.fe.specs.anycompiler.weaver',
             '-n', 'pt.up.fe.specs.anycompiler.ast.AnyNode',
             '-j',
-            '-e',
-            '-d'
+            '-e'
     ]
 }
