@@ -51,18 +51,18 @@ sourceSets {
 }
 
 // Weaver Generator
-task weaverGenerator(type: JavaExec) {
+tasks.register('weaverGenerator', JavaExec) {
     group = "Execution"
     description = "Generates the Weaver Abstracts from the Language Specification"
     classpath = configurations.weaverGeneratorRuntime
     mainClass = 'org.lara.interpreter.weaver.generator.commandline.WeaverGenerator'
     args = [
-            '-w', 'AnyWeaver',
-            '-x', './resources/anycompiler/weaverspecs',
-            '-o', './src',
-            '-p', 'pt.up.fe.specs.anycompiler.weaver',
-            '-n', 'pt.up.fe.specs.anycompiler.ast.AnyNode',
-            '-j',
-            '-e'
+        '-w', 'AnyWeaver',
+        '-x', './resources/anycompiler/weaverspecs',
+        '-o', './src',
+        '-p', 'pt.up.fe.specs.anycompiler.weaver',
+        '-n', 'pt.up.fe.specs.anycompiler.ast.AnyNode',
+        '-j',
+        '-e'
     ]
 }
