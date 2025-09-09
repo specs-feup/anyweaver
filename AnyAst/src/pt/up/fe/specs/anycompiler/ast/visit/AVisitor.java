@@ -1,10 +1,10 @@
 package pt.up.fe.specs.anycompiler.ast.visit;
 
 import pt.up.fe.specs.anycompiler.ast.AnyNode;
-import pt.up.fe.specs.util.SpecsCheck;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiFunction;
 
 /**
@@ -51,7 +51,7 @@ public abstract class AVisitor<D, R> implements Visitor<D, R> {
             }
         }
 
-        SpecsCheck.checkNotNull(defaultVisit,
+        Objects.requireNonNull(defaultVisit,
                 () -> "Could not find a suitable visit method for node of kind " + node.getKind()
                         + ", and no default visitor is set");
 
@@ -60,7 +60,7 @@ public abstract class AVisitor<D, R> implements Visitor<D, R> {
 
     @Override
     public R visit(AnyNode node, D data) {
-        SpecsCheck.checkNotNull(node, () -> "Node should not be null");
+        Objects.requireNonNull(node, () -> "Node should not be null");
 
         return getVisit(node).apply(node, data);
     }
