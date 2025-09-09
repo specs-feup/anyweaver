@@ -127,7 +127,7 @@ public class JsonParser implements AnyParser {
         nodes.put(id, node);
 
         // Set id
-        node.putValue("id", id);
+        node.putObject("id", id);
 
         // Set attributes
         for (var key : value.keySet()) {
@@ -139,7 +139,7 @@ public class JsonParser implements AnyParser {
             }
 
             var attrValue = value.get(key);
-            node.putValue(key, attrValue);
+            node.putObject(key, attrValue);
         }
 
         var childrenIds = getChildrenIds(id, value);
@@ -157,7 +157,7 @@ public class JsonParser implements AnyParser {
         var node = new GenericAnyNode(kind);
 
         // Set id
-        node.putValue("id", id);
+        node.putObject("id", id);
 
         // Set attributes
         for (var key : value.keySet()) {
@@ -168,7 +168,7 @@ public class JsonParser implements AnyParser {
             }
 
             var attrValue = value.get(key);
-            node.putValue(key, attrValue);
+            node.putObject(key, attrValue);
         }
 
         // Parse children
