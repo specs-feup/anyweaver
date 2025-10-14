@@ -31,7 +31,7 @@ import java.util.*;
 public class AnyWeaver extends AAnyWeaver {
 
     private static final String WEAVER_NAME = "AnyWeaver";
-    private static final String WEAVER_API_NAME = "anyweaver-js";
+    private static final String WEAVER_API_NAME = "@specs-feup/anyweaver";
 
     private DataStore args;
     private AnyNode root;

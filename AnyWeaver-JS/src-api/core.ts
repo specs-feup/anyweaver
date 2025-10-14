@@ -5,7 +5,7 @@
  * Remove this file if AnyWeaver Classic has died out.
  */
 
-const prefix = "anyweaver-js/api/";
+const prefix = "@specs-feup/anyweaver/api/";
 const coreImports: string[] = [];
 const sideEffectsOnlyImports: string[] = ["Joinpoints.js"];
 
