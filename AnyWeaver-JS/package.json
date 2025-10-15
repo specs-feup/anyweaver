@@ -1,6 +1,6 @@
 {
   "name": "@specs-feup/anyweaver",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A generic source-to-source compiler written in Typescript",
   "type": "module",
   "files": [
