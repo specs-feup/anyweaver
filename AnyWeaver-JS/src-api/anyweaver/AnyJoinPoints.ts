@@ -9,7 +9,7 @@ import AnyJavaTypes from "./AnyJavaTypes.js";
  * Utility methods related with the creation of new join points.
  *
  */
-export default class AnyWeaverJoinPoints {
+export default class AnyJoinPoints {
   static toJoinPoint(node: any): Joinpoints.Joinpoint {
     return wrapJoinPoint(AnyJavaTypes.AnyJoinPoints.createFromLara(node));
   }
