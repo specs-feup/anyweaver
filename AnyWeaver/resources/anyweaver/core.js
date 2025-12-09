@@ -6,7 +6,7 @@
  */
 const prefix = "@specs-feup/anyweaver/api/";
 const coreImports = [];
-const sideEffectsOnlyImports = ["Joinpoints.js"];
+const sideEffectsOnlyImports = ["Joinpoints.js", "sideeffects.js"];
 for (const sideEffectsOnlyImport of sideEffectsOnlyImports) {
     await import(prefix + sideEffectsOnlyImport);
 }

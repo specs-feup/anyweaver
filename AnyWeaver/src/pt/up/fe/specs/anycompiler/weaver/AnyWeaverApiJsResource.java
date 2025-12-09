@@ -25,7 +25,10 @@ import org.lara.interpreter.weaver.utils.LaraResourceProvider;
 public enum AnyWeaverApiJsResource implements LaraResourceProvider {
 
     JOINPOINTS_JS("Joinpoints.js"),
+    ANYJAVATYPES_JS("anyweaver/AnyJavaTypes.js"),
+    ANYJOINPOINTS_JS("anyweaver/AnyJoinPoints.js"),
     CORE_JS("core.js"),
+    SIDEEFFECTS_JS("sideeffects.js"),
     PARSERS_JS("weaver/Parsers.js");
 
     private final String resource;
