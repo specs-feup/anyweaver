@@ -10,5 +10,8 @@ export const weaverConfig: WeaverConfiguration = {
     "./java-binaries/"
   ),
   javaWeaverQualifiedName: "pt.up.fe.specs.anycompiler.weaver.AnyWeaver",
-  importForSideEffects: ["@specs-feup/anyweaver/api/Joinpoints.js"],
+  importForSideEffects: [
+    "@specs-feup/anyweaver/api/Joinpoints.js",
+    "@specs-feup/anyweaver/api/sideeffects.js",
+  ],
 };
