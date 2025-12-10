@@ -59,6 +59,15 @@
 					},
 					{
 						"type": "action",
+						"tooltip": "Performs a copy of the node and its children,  and a shallow copy of attributes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "copy"
+									}]
+					},
+					{
+						"type": "action",
 						"tooltip": "Removes the node associated to this joinpoint from the AST",
 						"children": [
 									{
@@ -252,6 +261,15 @@
 									{
 										"type": "joinpoint",
 										"name": "parent"
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Performs a copy of the node and its children,  and a shallow copy of attributes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "copy"
 									}]
 					},
 					{
@@ -463,6 +481,15 @@
 										"type": "joinpoint",
 										"name": "ast",
 										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Performs a copy of the node and its children,  and a shallow copy of attributes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "copy"
 									}]
 					},
 					{

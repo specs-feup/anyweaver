@@ -60,6 +60,7 @@ public abstract class AJoinPoint extends JoinPoint {
      */
     @Override
     protected void fillWithActions(List<String> actions) {
+        actions.add("copy()");
         actions.add("detach()");
         actions.add("insertAfter(AJoinPoint node)");
         actions.add("insertAfter(String code)");
@@ -70,6 +71,31 @@ public abstract class AJoinPoint extends JoinPoint {
         actions.add("replaceWith(AJoinPoint[] node)");
         actions.add("replaceWithStrings(String[] node)");
         actions.add("setValue(String name, Object value)");
+    }
+
+    /**
+     * Performs a copy of the node and its children,  and a shallow copy of attributes
+     */
+    public AJoinPoint copyImpl() {
+        throw new UnsupportedOperationException(get_class()+": Action copy not implemented ");
+    }
+
+    /**
+     * Performs a copy of the node and its children,  and a shallow copy of attributes
+     */
+    public final Object copy() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAction(Stage.BEGIN, "copy", this, Optional.empty());
+        	}
+        	AJoinPoint result = this.copyImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAction(Stage.END, "copy", this, Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new ActionException(get_class(), "copy", e);
+        }
     }
 
     /**
