@@ -50,7 +50,7 @@
   },
   "homepage": "https://github.com/specs-feup/anyweaver#readme",
   "dependencies": {
-    "@specs-feup/lara": "^3.0.1"
+    "@specs-feup/lara": "^3.0.14"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",

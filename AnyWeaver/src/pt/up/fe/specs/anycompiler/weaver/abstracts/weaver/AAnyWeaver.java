@@ -21,7 +21,7 @@ public abstract class AAnyWeaver extends LaraWeaverEngine {
      */
     @Override
     public final List<String> getActions() {
-        String[] weaverActions= {"detach", "insertAfter", "insertAfter", "insertBefore", "insertBefore", "replaceWith", "replaceWith", "replaceWith", "replaceWithStrings", "setValue", "addAst"};
+        String[] weaverActions= {"copy", "detach", "insertAfter", "insertAfter", "insertBefore", "insertBefore", "replaceWith", "replaceWith", "replaceWith", "replaceWithStrings", "setValue", "addAst"};
         return Arrays.asList(weaverActions);
     }
 
