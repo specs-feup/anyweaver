@@ -20,7 +20,7 @@
   },
   "scripts": {
     "run": "node ./code/index.js",
-    "build": "tsc -b src-api src-code",
+    "build": "tsc -b src-api src-code src-test",
     "build:api": "tsc -b src-api",
     "build:code": "tsc -b src-code",
     "build:watch": "npm run build -- --watch",
