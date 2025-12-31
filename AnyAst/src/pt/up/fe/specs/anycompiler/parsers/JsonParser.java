@@ -138,7 +138,12 @@ public class JsonParser implements AnyParser {
                 continue;
             }
 
-            var attrValue = value.get(key);
+            Object attrValue = value.get(key);
+
+            if (attrValue instanceof List<?> list) {
+                attrValue = list.toArray(new Object[list.size()]);
+            }
+
             node.putObject(key, attrValue);
         }
 
@@ -167,7 +172,12 @@ public class JsonParser implements AnyParser {
                 continue;
             }
 
-            var attrValue = value.get(key);
+            Object attrValue = value.get(key);
+
+            if (attrValue instanceof List<?> list) {
+                attrValue = list.toArray(new Object[list.size()]);
+            }
+
             node.putObject(key, attrValue);
         }
 

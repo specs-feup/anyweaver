@@ -4,9 +4,9 @@
  * Do not use this file in new (clava-js) projects.
  * Remove this file if AnyWeaver Classic has died out.
  */
-const prefix = "anyweaver-js/api/";
+const prefix = "@specs-feup/anyweaver/api/";
 const coreImports = [];
-const sideEffectsOnlyImports = ["Joinpoints.js"];
+const sideEffectsOnlyImports = ["Joinpoints.js", "sideeffects.js"];
 for (const sideEffectsOnlyImport of sideEffectsOnlyImports) {
     await import(prefix + sideEffectsOnlyImport);
 }

@@ -46,6 +46,10 @@ export class Joinpoint extends LaraJoinPoint {
    */
   getValue(name: string): object { return wrapJoinPoint(this._javaObject.getValue(unwrapJoinPoint(name))); }
   /**
+   * Performs a copy of the node and its children,  and a shallow copy of attributes
+   */
+  copy(): Joinpoint { return wrapJoinPoint(this._javaObject.copy()); }
+  /**
    * Removes the node associated to this joinpoint from the AST
    */
   detach(): Joinpoint { return wrapJoinPoint(this._javaObject.detach()); }

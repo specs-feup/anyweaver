@@ -44,6 +44,31 @@ public abstract class AJoinPoint extends JoinPoint {
     public abstract AnyNode getNode();
 
     /**
+     * Performs a copy of the node and its children,  and a shallow copy of attributes
+     */
+    public AJoinPoint copyImpl() {
+        throw new UnsupportedOperationException(get_class()+": Action copy not implemented ");
+    }
+
+    /**
+     * Performs a copy of the node and its children,  and a shallow copy of attributes
+     */
+    public final Object copy() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAction(Stage.BEGIN, "copy", this, Optional.empty());
+        	}
+        	AJoinPoint result = this.copyImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAction(Stage.END, "copy", this, Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new ActionException(get_class(), "copy", e);
+        }
+    }
+
+    /**
      * Removes the node associated to this joinpoint from the AST
      */
     public AJoinPoint detachImpl() {
