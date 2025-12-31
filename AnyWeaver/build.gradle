@@ -51,7 +51,7 @@ sourceSets {
 }
 
 // Weaver Generator
-tasks.register('weaverGenerator', JavaExec) {
+tasks.register('generateWeaver', JavaExec) {
     group = "Execution"
     description = "Generates the Weaver Abstracts from the Language Specification"
     classpath = configurations.weaverGeneratorRuntime
@@ -66,3 +66,5 @@ tasks.register('weaverGenerator', JavaExec) {
         '-e'
     ]
 }
+
+compileJava.dependsOn generateWeaver
