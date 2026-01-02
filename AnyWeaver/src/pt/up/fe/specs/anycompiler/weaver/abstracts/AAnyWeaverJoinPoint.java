@@ -1,11 +1,9 @@
 package pt.up.fe.specs.anycompiler.weaver.abstracts;
 
 import org.lara.interpreter.weaver.interf.JoinPoint;
-import org.lara.interpreter.weaver.interf.SelectOp;
 import pt.up.fe.specs.anycompiler.weaver.AnyJoinpoints;
 import pt.up.fe.specs.anycompiler.weaver.abstracts.joinpoints.AJoinPoint;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -24,14 +22,6 @@ public abstract class AAnyWeaverJoinPoint extends AJoinPoint {
     @Override
     public boolean compareNodes(AJoinPoint aJoinPoint) {
         return this.getNode().equals(aJoinPoint.getNode());
-    }
-
-    /**
-     * Generic select function, used by the default select implementations.
-     */
-    @Override
-    public <T extends AJoinPoint> List<? extends T> select(Class<T> joinPointClass, SelectOp op) {
-        return getNode().getChildrenStream().map(c -> AnyJoinpoints.create(c, joinPointClass)).toList();
     }
 
     @Override

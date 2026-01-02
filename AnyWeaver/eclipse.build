@@ -1,7 +1,0 @@
-https://github.com/specs-feup/lara-framework?commit=staging
-https://github.com/specs-feup/specs-java-libs
-https://github.com/specs-feup/anyweaver
---build
---project AnyWeaver
---main pt.up.fe.specs.anycompiler.weaver.AnyWeaverLauncher
---jar subfolder

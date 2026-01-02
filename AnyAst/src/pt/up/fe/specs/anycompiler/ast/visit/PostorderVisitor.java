@@ -15,9 +15,9 @@ package pt.up.fe.specs.anycompiler.ast.visit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import pt.up.fe.specs.anycompiler.ast.AnyNode;
-import pt.up.fe.specs.util.SpecsCheck;
 
 /**
  * Visitor that automatically applies a postorder, bottom-up traversal (first the children, then the current node).
@@ -29,7 +29,7 @@ public abstract class PostorderVisitor<D, R> extends AllNodesVisitor<D, R> {
 
     @Override
     public R visit(AnyNode node, D data) {
-        SpecsCheck.checkNotNull(node, () -> "Node should not be null");
+        Objects.requireNonNull(node, () -> "Node should not be null");
 
         var visit = getVisit(node);
 

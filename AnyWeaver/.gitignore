@@ -1,0 +1,7 @@
+src/**/abstracts/
+src/**/exceptions/AnyWeaverException.java
+src/**/enums/
+*.dotty
+AnyWeaver.json
+AnyWeaver.png
+AnyWeaver.svg
