@@ -1,13 +1,13 @@
 import JavaTypes, {
-  JavaClasses,
+    JavaClasses,
 } from "@specs-feup/lara/api/lara/util/JavaTypes.js";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace AnyJavaClasses {
-  /* eslint-disable @typescript-eslint/no-empty-interface */
-  export interface AnyJoinPoints extends JavaClasses.JavaClass {}
-  export interface AnyJpFactory extends JavaClasses.JavaClass {}
-  /* eslint-enable @typescript-eslint/no-empty-interface */
+    /* eslint-disable @typescript-eslint/no-empty-interface */
+    export interface AnyJoinPoints extends JavaClasses.JavaClass {}
+    export interface AnyJpFactory extends JavaClasses.JavaClass {}
+    /* eslint-enable @typescript-eslint/no-empty-interface */
 }
 
 /**
@@ -21,11 +21,9 @@ export default class AnyJavaTypes {
     ) as AnyJavaClasses.AnyJoinPoints;
   }
 
-static get AnyJpFactory() {
+  static get AnyJpFactory() {
     return JavaTypes.getType(
       "pt.up.fe.specs.anycompiler.weaver.AnyJpFactory"
     ) as AnyJavaClasses.AnyJpFactory;
-  }  
-
- 
+  }
 }

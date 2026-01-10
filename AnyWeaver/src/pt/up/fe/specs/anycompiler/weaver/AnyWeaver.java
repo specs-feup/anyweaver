@@ -1,6 +1,5 @@
 package pt.up.fe.specs.anycompiler.weaver;
 
-import org.lara.interpreter.weaver.ast.AstMethods;
 import org.lara.interpreter.weaver.interf.AGear;
 import org.lara.interpreter.weaver.interf.JoinPoint;
 import org.lara.interpreter.weaver.options.WeaverOption;
@@ -86,12 +85,6 @@ public class AnyWeaver extends AAnyWeaver {
         return sourceFiles;
     }
 
-    @Override
-    public AstMethods getAstMethods() {
-        // TODO Auto-generated method stub
-        return super.getAstMethods();
-    }
-
     /**
      * Closes the weaver to the specified output directory location, if the weaver generates new file(s)
      *
@@ -113,13 +106,6 @@ public class AnyWeaver extends AAnyWeaver {
         return Collections.emptyList(); // i.e., no gears currently being used
     }
 
-    /**
-     * Returns Weaving Engine as a SmaliWeaver
-     */
-    public static AnyWeaver getAnyWeaver() {
-        return (AnyWeaver) getThreadLocalWeaver();
-    }
-
     @Override
     public List<WeaverOption> getOptions() {
         return List.of();
@@ -137,6 +123,6 @@ public class AnyWeaver extends AAnyWeaver {
 
     @Override
     public JoinPoint getRootJp() {
-        return AnyJoinpoints.create(root);
+        return AnyJoinpoints.create(root, this);
     }
 }
