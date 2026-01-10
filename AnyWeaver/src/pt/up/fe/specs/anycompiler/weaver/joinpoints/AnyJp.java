@@ -15,6 +15,7 @@ package pt.up.fe.specs.anycompiler.weaver.joinpoints;
 
 import pt.up.fe.specs.anycompiler.ast.AnyNode;
 import pt.up.fe.specs.anycompiler.weaver.AnyJoinpoints;
+import pt.up.fe.specs.anycompiler.weaver.AnyWeaver;
 import pt.up.fe.specs.anycompiler.weaver.abstracts.joinpoints.AAny;
 import pt.up.fe.specs.anycompiler.weaver.abstracts.joinpoints.AJoinPoint;
 
@@ -22,7 +23,8 @@ public class AnyJp extends AAny {
 
     private final AnyNode node;
 
-    public AnyJp(AnyNode node) {
+    public AnyJp(AnyNode node, AnyWeaver weaver) {
+        super(weaver);
         this.node = node;
     }
 
@@ -33,6 +35,6 @@ public class AnyJp extends AAny {
 
     @Override
     public AJoinPoint copyImpl() {
-        return AnyJoinpoints.create(node.copy());
+        return AnyJoinpoints.create(node.copy(), getWeaverEngine());
     }
 }

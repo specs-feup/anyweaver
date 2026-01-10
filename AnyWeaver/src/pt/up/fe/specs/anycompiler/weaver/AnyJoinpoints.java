@@ -20,51 +20,50 @@ import pt.up.fe.specs.anycompiler.weaver.abstracts.joinpoints.AJoinPoint;
 import pt.up.fe.specs.anycompiler.weaver.joinpoints.AnyJp;
 import pt.up.fe.specs.anycompiler.weaver.joinpoints.AppJp;
 import pt.up.fe.specs.util.SpecsLogs;
-import pt.up.fe.specs.util.classmap.FunctionClassMap;
+import pt.up.fe.specs.util.classmap.BiFunctionClassMap;
 
 public class AnyJoinpoints {
 
-    private static final FunctionClassMap<AnyNode, AAnyWeaverJoinPoint> JOINPOINT_FACTORY;
+    private static final BiFunctionClassMap<AnyNode, AnyWeaver, AAnyWeaverJoinPoint> JOINPOINT_FACTORY;
     static {
-        JOINPOINT_FACTORY = new FunctionClassMap<>();
+        JOINPOINT_FACTORY = new BiFunctionClassMap<>();
         JOINPOINT_FACTORY.put(GenericAnyNode.class, AnyJoinpoints::jpBuilder);
-        // JOINPOINT_FACTORY.put(Placeholder.class, node -> new PlaceholderJp(node));
     }
 
-    private static AAnyWeaverJoinPoint jpBuilder(AnyNode node) {
+    private static AAnyWeaverJoinPoint jpBuilder(AnyNode node, AnyWeaver weaver) {
 
         if (node.getKind().equals("app")) {
-            return new AppJp(node);
+            return new AppJp(node, weaver);
         }
 
         // Default
-        return new AnyJp(node);
+        return new AnyJp(node, weaver);
     }
 
-    public static AAnyWeaverJoinPoint createFromLara(Object node) {
+    public static AAnyWeaverJoinPoint createFromLara(Object node, AnyWeaver weaver) {
         if (!(node instanceof AnyNode)) {
             throw new RuntimeException(
                     "Expected input to be a AnyNode, is " + node.getClass().getSimpleName() + ": " + node);
         }
 
-        return create((AnyNode) node);
+        return create((AnyNode) node, weaver);
     }
 
-    public static AAnyWeaverJoinPoint create(AnyNode node) {
+    public static AAnyWeaverJoinPoint create(AnyNode node, AnyWeaver weaver) {
         if (node == null) {
             SpecsLogs.debug("CxxJoinpoints: tried to create join point from null node, returning undefined");
             return null;
         }
 
-        return JOINPOINT_FACTORY.apply(node);
+        return JOINPOINT_FACTORY.apply(node, weaver);
     }
 
-    public static <T extends AJoinPoint> T create(AnyNode node, Class<T> targetClass) {
+    public static <T extends AJoinPoint> T create(AnyNode node, AnyWeaver weaver, Class<T> targetClass) {
         if (targetClass == null) {
             throw new RuntimeException("Check if you meant to call 'create' with a single argument");
         }
 
-        return targetClass.cast(create(node));
+        return targetClass.cast(create(node, weaver));
     }
 
 }

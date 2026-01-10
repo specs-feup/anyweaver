@@ -1,9 +1,8 @@
-import {
-  wrapJoinPoint,
-} from "@specs-feup/lara/api/LaraJoinPoint.js";
+import { wrapJoinPoint } from "@specs-feup/lara/api/LaraJoinPoint.js";
 
 import * as Joinpoints from "../Joinpoints.js";
 import AnyJavaTypes from "./AnyJavaTypes.js";
+import Weaver from "@specs-feup/lara/api/weaver/Weaver.js";
 
 /**
  * Utility methods related with the creation of new join points.
@@ -21,8 +20,8 @@ export default class AnyJoinPoints {
    * @returns
    */
   static any(kind: string): Joinpoints.Any {
-    return wrapJoinPoint(AnyJavaTypes.AnyJpFactory.anyNode(kind));
+    return wrapJoinPoint(
+      AnyJavaTypes.AnyJpFactory.anyNode(Weaver.getWeaverEngine(), kind)
+    );
   }
-
-  
 }

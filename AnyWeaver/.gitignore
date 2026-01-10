@@ -1,4 +1,5 @@
 src/**/abstracts/
+!src/**/abstracts/AAnyWeaverJoinPoint.java
 src/**/exceptions/AnyWeaverException.java
 src/**/enums/
 *.dotty

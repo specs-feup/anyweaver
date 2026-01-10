@@ -15,6 +15,7 @@ package pt.up.fe.specs.anycompiler.weaver.joinpoints;
 
 import pt.up.fe.specs.anycompiler.ast.AnyNode;
 import pt.up.fe.specs.anycompiler.weaver.AnyJoinpoints;
+import pt.up.fe.specs.anycompiler.weaver.AnyWeaver;
 import pt.up.fe.specs.anycompiler.weaver.abstracts.joinpoints.AApp;
 import pt.up.fe.specs.anycompiler.weaver.abstracts.joinpoints.AJoinPoint;
 
@@ -22,7 +23,8 @@ public class AppJp extends AApp {
 
     private final AnyNode app;
 
-    public AppJp(AnyNode app) {
+    public AppJp(AnyNode app, AnyWeaver weaver) {
+        super(weaver);
         this.app = app;
     }
 
@@ -33,7 +35,7 @@ public class AppJp extends AApp {
 
     @Override
     public AJoinPoint addAstImpl(AJoinPoint ast) {
-        return AnyJoinpoints.create(app.addChild(ast.getNode()));
+        return AnyJoinpoints.create(app.addChild(ast.getNode()), getWeaverEngine());
     }
 
 }
