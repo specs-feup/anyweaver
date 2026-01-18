@@ -4,7 +4,6 @@ import org.lara.interpreter.weaver.ast.AstMethods;
 import org.lara.interpreter.weaver.interf.AGear;
 import org.lara.interpreter.weaver.interf.JoinPoint;
 import org.lara.interpreter.weaver.options.WeaverOption;
-import org.lara.interpreter.weaver.utils.LaraResourceProvider;
 import org.lara.language.specification.dsl.LanguageSpecification;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import pt.up.fe.specs.anycompiler.ast.AnyNode;
@@ -13,7 +12,6 @@ import pt.up.fe.specs.anycompiler.parsers.JsonParser;
 import pt.up.fe.specs.anycompiler.weaver.abstracts.weaver.AAnyWeaver;
 import pt.up.fe.specs.util.SpecsIo;
 import pt.up.fe.specs.util.SpecsLogs;
-import pt.up.fe.specs.util.providers.ResourceProvider;
 
 import java.io.File;
 import java.util.*;
@@ -31,7 +29,6 @@ import java.util.*;
 public class AnyWeaver extends AAnyWeaver {
 
     private static final String WEAVER_NAME = "AnyWeaver";
-    private static final String WEAVER_API_NAME = "@specs-feup/anyweaver";
 
     private DataStore args;
     private AnyNode root;
@@ -44,17 +41,6 @@ public class AnyWeaver extends AAnyWeaver {
 
     public AnyWeaver() {
         root = null;
-    }
-
-    /**
-     * Warns the lara interpreter if the weaver accepts a folder as the application or only one file at a time.
-     *
-     * @return true if the weaver is able to work with several files, false if only works with one file
-     */
-    @Override
-    public boolean handlesApplicationFolder() {
-        // Can the weaver handle an application folder?
-        return true;
     }
 
     /**
@@ -85,12 +71,6 @@ public class AnyWeaver extends AAnyWeaver {
         return true;
     }
 
-
-    private LanguageSpecification buildLangSpec() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
     private List<File> getSourceFiles(List<File> sources) {
         var sourceFiles = new ArrayList<File>();
 
@@ -110,16 +90,6 @@ public class AnyWeaver extends AAnyWeaver {
     public AstMethods getAstMethods() {
         // TODO Auto-generated method stub
         return super.getAstMethods();
-    }
-
-    /**
-     * Return a JoinPoint instance of the language root, i.e., an instance of APlaceholder
-     *
-     * @return an instance of the join point root/program
-     */
-    @Override
-    public JoinPoint select() {
-        return null;
     }
 
     /**
@@ -166,22 +136,7 @@ public class AnyWeaver extends AAnyWeaver {
     }
 
     @Override
-    public String getWeaverApiName() {
-        return WEAVER_API_NAME;
-    }
-
-    @Override
-    public List<ResourceProvider> getAspectsAPI() {
-        return Collections.emptyList();
-    }
-
-    @Override
     public JoinPoint getRootJp() {
         return AnyJoinpoints.create(root);
-    }
-
-    @Override
-    protected List<LaraResourceProvider> getWeaverNpmResources() {
-        return Arrays.asList(AnyWeaverApiJsResource.values());
     }
 }

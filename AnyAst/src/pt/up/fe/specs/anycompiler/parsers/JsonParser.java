@@ -17,13 +17,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import com.google.gson.Gson;
 
 import pt.up.fe.specs.anycompiler.AnyParser;
 import pt.up.fe.specs.anycompiler.ast.AnyNode;
 import pt.up.fe.specs.anycompiler.ast.GenericAnyNode;
-import pt.up.fe.specs.util.SpecsCheck;
 import pt.up.fe.specs.util.SpecsLogs;
 
 public class JsonParser implements AnyParser {
@@ -121,13 +121,13 @@ public class JsonParser implements AnyParser {
             HashMap<String, List<String>> children) {
 
         var kind = value.get(kindAttr).toString();
-        SpecsCheck.checkNotNull(kind, () -> "Node '" + id + "' does not have attribute '" + kindAttr + "'");
+        Objects.requireNonNull(kind, () -> "Node '" + id + "' does not have attribute '" + kindAttr + "'");
 
         var node = new GenericAnyNode(kind);
         nodes.put(id, node);
 
         // Set id
-        node.putValue("id", id);
+        node.putObject("id", id);
 
         // Set attributes
         for (var key : value.keySet()) {
@@ -144,7 +144,7 @@ public class JsonParser implements AnyParser {
                 attrValue = list.toArray(new Object[list.size()]);
             }
 
-            node.putValue(key, attrValue);
+            node.putObject(key, attrValue);
         }
 
         var childrenIds = getChildrenIds(id, value);
@@ -157,12 +157,12 @@ public class JsonParser implements AnyParser {
         var id = nextId();
 
         var kind = value.get(kindAttr).toString();
-        SpecsCheck.checkNotNull(kind, () -> "Node '" + id + "' does not have attribute '" + kindAttr + "'");
+        Objects.requireNonNull(kind, () -> "Node '" + id + "' does not have attribute '" + kindAttr + "'");
 
         var node = new GenericAnyNode(kind);
 
         // Set id
-        node.putValue("id", id);
+        node.putObject("id", id);
 
         // Set attributes
         for (var key : value.keySet()) {
@@ -178,13 +178,13 @@ public class JsonParser implements AnyParser {
                 attrValue = list.toArray(new Object[list.size()]);
             }
 
-            node.putValue(key, attrValue);
+            node.putObject(key, attrValue);
         }
 
         // Parse children
         @SuppressWarnings("unchecked")
         var childrenUnparsed = (List<Map<String, Object>>) value.get(childrenAttr);
-        SpecsCheck.checkNotNull(childrenUnparsed,
+        Objects.requireNonNull(childrenUnparsed,
                 () -> "Node '" + id + "' does not have attribute '" + childrenAttr + "'");
 
         var children = childrenUnparsed.stream().map(child -> parseNodeRecursive(child)).toList();

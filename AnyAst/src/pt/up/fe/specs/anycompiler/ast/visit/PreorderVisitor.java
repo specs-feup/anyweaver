@@ -14,10 +14,10 @@
 package pt.up.fe.specs.anycompiler.ast.visit;
 
 import pt.up.fe.specs.anycompiler.ast.AnyNode;
-import pt.up.fe.specs.util.SpecsCheck;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Visitor that automatically applies a preorder, top-down traversal (first current node, then children).
@@ -29,7 +29,7 @@ public abstract class PreorderVisitor<D, R> extends AllNodesVisitor<D, R> {
 
     @Override
     public R visit(AnyNode node, D data) {
-        SpecsCheck.checkNotNull(node, () -> "Node should not be null");
+        Objects.requireNonNull(node, () -> "Node should not be null");
 
         var visit = getVisit(node);
 

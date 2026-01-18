@@ -165,7 +165,7 @@ public class AntlrToAnyNodeConverter {
 
                 var literalValue = token.getText();
 
-                SpecsCheck.checkNotNull(literalValue, () -> "Could not extract value from token");
+                Objects.requireNonNull(literalValue, () -> "Could not extract value from token");
 
                 anyNode.putObject(name, literalValue);
             } catch (IllegalAccessException e) {
